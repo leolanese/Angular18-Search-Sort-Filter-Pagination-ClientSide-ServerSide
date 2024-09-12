@@ -1,0 +1,40 @@
+<div *ngIf="isLoading" class="loading-indicator">
+    <mat-spinner></mat-spinner>
+  </div>
+  
+  <mat-card>
+    <mat-form-field class="search">
+      <mat-label>Search</mat-label>
+      <input matInput [formControl]="searchKeywordFilter" placeholder="Title to Search">
+    </mat-form-field>
+  
+    <div class="table-wrapper">
+      <table mat-table [dataSource]="dataSource" matSort>
+        <!-- Column definitions -->
+        <ng-container matColumnDef="number">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Number</th>
+          <td mat-cell *matCellDef="let row">{{ row.number }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="title">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
+          <td mat-cell *matCellDef="let row">{{ row.title }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="state">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>State</th>
+          <td mat-cell *matCellDef="let row">{{ row.state }}</td>
+        </ng-container>
+  
+        <ng-container matColumnDef="created">
+          <th mat-header-cell *matHeaderCellDef mat-sort-header>Created</th>
+          <td mat-cell *matCellDef="let row">{{ row.created_at | date }}</td>
+        </ng-container>
+  
+        <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
+        <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
+      </table>
+  
+      <mat-paginator [pageSizeOptions]="pageSizes" showFirstLastButtons></mat-paginator>
+    </div>
+  </mat-card>
