@@ -17,9 +17,11 @@ import { MatTooltipModule } from '@angular/material/tooltip';
 import { BehaviorSubject, Observable, startWith, combineLatest, map, debounceTime, distinctUntilChanged, merge } from 'rxjs';
 import { DataSource } from '@angular/cdk/collections';
 
-
 class CustomDataSource extends DataSource<ResponseItem> {
   private dataSubject = new BehaviorSubject<ResponseItem[]>([]);
+  private loadingSubject = new BehaviorSubject<boolean>(true);
+
+  loading$ = this.loadingSubject.asObservable();
 
   constructor(private clientSideBasedPaginationService: ClientSideBasedPaginationService) {
     super();
@@ -29,7 +31,8 @@ class CustomDataSource extends DataSource<ResponseItem> {
   loadData() {
     this.clientSideBasedPaginationService.fetchTableData().subscribe(
       response => {
-        this.dataSubject.next(response.items)
+        this.dataSubject.next(response.items);
+        this.loadingSubject.next(false);
       }
     );
   }
@@ -40,6 +43,7 @@ class CustomDataSource extends DataSource<ResponseItem> {
 
   disconnect() {
     this.dataSubject.complete();
+    this.loadingSubject.complete();
   }
 }
 
@@ -79,6 +83,9 @@ export class ClientSideBasedComponent implements OnInit, AfterViewInit {
 
   ngOnInit(): void {
     // The data loading is now handled by the CustomDataSource
+    this.dataSource.loading$.subscribe(isLoading => {
+      this.isLoading = isLoading;
+    });
   }
 
   ngAfterViewInit() {
@@ -96,7 +103,7 @@ export class ClientSideBasedComponent implements OnInit, AfterViewInit {
         map(() => this.getSortedData([...this.dataSource['dataSubject'].value]))
       )
       .subscribe(data => { 
-        this.dataSource['dataSubject'].next(data)
+        this.dataSource['dataSubject'].next(data);
       });
   }
 
@@ -125,7 +132,6 @@ export class ClientSideBasedComponent implements OnInit, AfterViewInit {
       )
       .subscribe(paginatedData => { 
         this.dataSource['dataSubject'].next(paginatedData);
-        this.isLoading = false;
       });
   }
 
@@ -151,4 +157,5 @@ export class ClientSideBasedComponent implements OnInit, AfterViewInit {
       item.title.toLowerCase().includes(filterValue.toLowerCase())
     );
   }
+  
 }

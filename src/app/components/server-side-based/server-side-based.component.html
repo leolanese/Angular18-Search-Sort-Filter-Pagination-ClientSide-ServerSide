@@ -42,7 +42,9 @@
         </table>
       </div>
     
-      <mat-paginator [length]="totalCount" [pageSizeOptions]="pageSizes" showFirstLastButtons></mat-paginator>
+      <mat-paginator [length]="totalCount" [pageSizeOptions]="pageSizes" 
+        aria-label="Select page"
+        showFirstLastButtons></mat-paginator>
       
     </div>
 </mat-card>
