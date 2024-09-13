@@ -1,5 +1,5 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
+import { PreloadAllModules, provideRouter, withPreloading,  } from '@angular/router';
 import { provideHttpClient, withInterceptors, withXsrfConfiguration } from '@angular/common/http';
 
 import { routes } from './app.routes';
@@ -23,7 +23,7 @@ export const appConfig: ApplicationConfig = {
       })
       ),
       provideZoneChangeDetection({ eventCoalescing: true }), 
-      provideRouter(routes, withPreloading(PreloadAllModules)), // Use withPreloading function
+      provideRouter(routes, withPreloading(PreloadAllModules)),
       provideAnimationsAsync()
   ]
 };

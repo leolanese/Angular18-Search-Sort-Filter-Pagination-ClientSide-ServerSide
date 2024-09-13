@@ -53,8 +53,8 @@ ng build --prod --aot --output-hashing=all
 I'm implemented SoC between the service (responsible for fetching data), the smart component (responsible for handling business logic, connect to the Service, use the  and passing data to the dummy component), and the dummy component (responsible for rendering the UI). It also showcases the usage of an interceptor to log HTTP requests and responses.
 
 - `Layered Architecture`
-Separating software into logical and independent layers. Code is organised into layers of responsibility. This encourages modularity:
-Layered Architecture: `Data Access Layer` (Service & interceptor), `Presentation Layer` Smart & Dummy Components.
+I'm separating software into logical and independent layers. Code is organised into layers of responsibility. This encourages modularity:
+Result: Layered Architecture: `Data Access Layer` (Service & interceptor), `Presentation Layer` Smart & Dummy Components.
 
 ---
 
@@ -66,7 +66,7 @@ Results: This will provide the benefits of both `tree shaking performance` and `
 
 - Modern Angular `StandAlone`:
 I directly bootstrap the component itself, not its module. This is because Angular standalone have their own injectors and don't rely on a root module for dependency injection.
-Result: Combined with `provideHttpClient()`  is more `tree-shakable` than importing HttpClientModule, as you can enable the features you want by giving it some parameters. This promotes code maintainability, reusability, and smaller application size.
+Results: Combined with `provideHttpClient()`  is more `tree-shakable` than importing HttpClientModule, as you can enable the features you want by giving it some parameters. This promotes code maintainability, reusability, and smaller application size.
 
 - `Dependency Injection` Pattern:
 Using Modern `Dependency Injection functions`, instead traditional `constructor-based dependency injection`as result I will have a more Modular, less Complex
@@ -75,7 +75,7 @@ Using Modern `Dependency Injection functions`, instead traditional `constructor-
 I'm using modern function Interceptors (Angular 15+) this contribute to a better tree-shakability due to their simplicity, reduced overhead, and a more direct approach to handling HTTP requests
 
 - `Lazy-Loading` & `Tree-Shaking`
-I'm using `provideRouter(routes, withPreloading(PreloadAllModules))` to improve performance by splitting the application. Also using standAlone Components and `.inject()` to help tree-shaking. 
+I'm using `provideRouter(routes, withPreloading(PreloadAllModules))` to improve performance by splitting the application. Also using standAlone Components and `.inject()` to help tree-shaking.
 
 - Implement Caching:
 -- `Cache API Service Calls`
@@ -167,11 +167,12 @@ I defined a ~safe angular build budget adjusting to the expectation of the test
 }
 ```
 
-- Using webpack-bundle-analyzer
-Best practices to analyse our bundles and content of your application and get a better understading the "chuncks". Best for visual, interactive analysis of your bundle's composition. Provides a clear, intuitive view of which modules are contributing most to your bundle size.
+- Using `webpack-bundle-analyzer`
+I'm implementing and analysing the bundles and content of our application and get a better understading the "chuncks". Best for visual, interactive analysis of our bundle's composition. Provides a clear, intuitive view of which modules are contributing most to our bundle size.
 
 - Using Source Map Explorer
-Best practices to analyse the size of individual files within your JavaScript bundle. Offers precise mapping between source code and bundled code. Best for detailed, text-based analysis of your bundle size with precise mapping back to your source code. Ideal for CI/CD environments and detailed size investigations.
+Best practices to analyse the size of individual files within our JS bundle.
+Results: A precise mapping between source code and bundled code. Best for detailed, text-based analysis of our bundle size with precise mapping back to our source code. Ideal for CI/CD environments and detailed size investigations.
 
 - Using Detective
 I'm using Detective to analyse the codebase to identify patterns and dependencies that might not be immediately apparent, by revealing hidden patterns, we can highlight areas for refactoring, optimisation, or potential issues, leading to improved code quality and maintainability
