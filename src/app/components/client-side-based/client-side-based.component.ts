@@ -67,13 +67,14 @@ function compare(a: string | number, b: string | number, isAsc: boolean) {
 })
 export class ClientSideBasedComponent implements OnInit, AfterViewInit {
   columnsToDisplay: string[] = ['title', 'number', 'created', 'state'];
-  pageSizes = [5, 10, 20];
+  pageSizes = [2, 5, 10, 20];
   isLoading = true;
+  currentPage = 1;
 
   dataSource: CustomDataSource;
 
-  @ViewChild(MatPaginator) paginator!: MatPaginator;
-  @ViewChild(MatSort) sort!: MatSort;
+  @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
+  @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
   searchKeywordFilter = new FormControl('');
 
@@ -127,6 +128,10 @@ export class ClientSideBasedComponent implements OnInit, AfterViewInit {
         map(() => {
           const data = this.dataSource['dataSubject'].value;
           const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+
+          // TODO FIX INITIAL PAGESIZE to 5
+console.log(data.slice(startIndex, startIndex + this.paginator.pageSize))
+
           return data.slice(startIndex, startIndex + this.paginator.pageSize);
         })
       )
@@ -157,5 +162,12 @@ export class ClientSideBasedComponent implements OnInit, AfterViewInit {
       item.title.toLowerCase().includes(filterValue.toLowerCase())
     );
   }
+
+  onPageChange(page: any): void {
+    this.currentPage = page;
+    this.setupPagination();
+  }
+
+
   
 }

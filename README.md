@@ -4,8 +4,8 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 
 ```js
-ng new sailpoint-test
-cd sailpoint-test
+ng new company-test
+cd company-test
 
 ng v
 Angular CLI: 18.0.3
@@ -49,45 +49,47 @@ ng build --prod --aot --output-hashing=all
 
 ## Design Pattern Architecture
 
-### Separation of Concern
+- `Separation of Concern`
+I'm implemented SoC between the service (responsible for fetching data), the smart component (responsible for handling business logic, connect to the Service, use the  and passing data to the dummy component), and the dummy component (responsible for rendering the UI). It also showcases the usage of an interceptor to log HTTP requests and responses.
 
-This example demonstrates the separation of concerns between the service (responsible for fetching data), the smart component (responsible for handling business logic, connect to the Service, use the  and passing data to the dummy component), and the dummy component (responsible for rendering the UI). It also showcases the usage of an interceptor to log HTTP requests and responses.
-
-### Layered pattern
-
-> `Layered Architecture` - Separating software into logical and independent layers. Code is organised into layers of responsibility. This encourages modularity:
+- `Layered Architecture`
+Separating software into logical and independent layers. Code is organised into layers of responsibility. This encourages modularity:
 Layered Architecture: `Data Access Layer` (Service & interceptor), `Presentation Layer` Smart & Dummy Components.
 
 ---
 
-## Angular Best Practices. Antipatterns. Recomendations
+## Performance and Optimisation: Best Practices. Antipatterns. Recomendations
 
 - Implemented `TSP mechanism`:
-I'm using `Tree Shakeable Providers` in `Services` by using the `providedIn` attribute, this will provide the benefits of both `tree shaking performance` and `dependency injection`,
-meaning that your services will not be included in the final bundle unless they are being used by other services or components. As a result we reduce the bundle size by removing unused code from the bundle.
+I'm using `Tree Shakeable Providers` in `Services` by using the `providedIn` attribute, 
+Results: This will provide the benefits of both `tree shaking performance` and `dependency injection`, meaning that our services will not be included in the final bundle unless they are being used by other services or components reducing the bundle size by removing unused code from the bundle.
 
-- Modern StandAlone Components:
-I directly bootstrap the component itself, not its module. This is because standalone components have their own injectors and don't rely on a root module for dependency injection. Promotes code maintainability, reusability, and smaller application size.
+- Modern Angular `StandAlone`:
+I directly bootstrap the component itself, not its module. This is because Angular standalone have their own injectors and don't rely on a root module for dependency injection.
+Result: Combined with `provideHttpClient()`  is more `tree-shakable` than importing HttpClientModule, as you can enable the features you want by giving it some parameters. This promotes code maintainability, reusability, and smaller application size.
 
-- Dependency Injection Pattern:
-Using Modern `Dependency Injection functions`, instead traditional `constructor-based dependency injection`as result I will have a more Modular, Less Complex
+- `Dependency Injection` Pattern:
+Using Modern `Dependency Injection functions`, instead traditional `constructor-based dependency injection`as result I will have a more Modular, less Complex
 
 - Using Modern `Function-based Interceptor`
-I'm using modern Interceptors (Angular 15+) this contribute to a better tree-shakability due to their simplicity, reduced overhead, and a more direct approach to handling HTTP requests
+I'm using modern function Interceptors (Angular 15+) this contribute to a better tree-shakability due to their simplicity, reduced overhead, and a more direct approach to handling HTTP requests
 
+- `Lazy-Loading` & `Tree-Shaking`
+I'm using `provideRouter(routes, withPreloading(PreloadAllModules))` to improve performance by splitting the application. Also using standAlone Components and `.inject()` to help tree-shaking. 
 
 - Implement Caching:
 -- `Cache API Service Calls`
 Caches identical HTTP requests within a single component:
 I'm using `shareReplay()` to improve efficiency, ensuring that all subscribers receive the most recent data without triggering multiple HTTP requests.
--- Cache HTTP Response Interceptor
+-- `Cache HTTP Response Interceptor`
 Caches identical HTTP requests across multiple components. I am implementing a `Cache HTTP Response Interceptor` to sit between the Components and Service, ensuring that repeated requests from different components don't result in multiple network calls.
 
 - `DestroyRef & takeUntilDestroyed()`:
 I'm using provides a more declarative and efficient way to handle automatic cleanup tasks when a component or service is destroyed: `takeUntilDestroyed(this.destroyRef)` to automatically unsubscribe when the component is destroyed, simplifying the cleanup process even further
 
 - `Angular control flows` syntax: `@for`, `@empty`, etc
-Using modern angular control flows, offering better runtime performance than *ngFor, especially for large lists.
+Using modern angular control flows offering granular implmentations.
+Results: Better runtime performance than *ngFor (especially for large lists) and smaller size components
 
 ---
 
@@ -138,8 +140,9 @@ To resolve this, I automatically clear the cache by configuring outputHashing in
  }} }}}}
 ```
 
-- esbuild
-significantly faster than traditional bundlers like Webpack, leading to shorter build times and improved developer productivity
+- Build Performance: 
+I'm activated: `AOT`, `optimization`, `extractLicenses`, deactivating `sourceMap` to improve the final production. 
+Result: extras will be removed, and `Real Ivy Compression` will produce a smaller bundle size. This leverages Angular's Ivy compiler (ngtsc) for efficient code generation and compression.
 
 
 - Angular build budget
@@ -172,6 +175,20 @@ Best practices to analyse the size of individual files within your JavaScript bu
 
 - Using Detective
 I'm using Detective to analyse the codebase to identify patterns and dependencies that might not be immediately apparent, by revealing hidden patterns, we can highlight areas for refactoring, optimisation, or potential issues, leading to improved code quality and maintainability
+
+
+- esbuild
+significantly faster than traditional bundlers like Webpack, leading to shorter build times and improved developer productivity
+
+---
+
+## Security
+
+- XSRF Protection
+I configured cookie name and header name for XSRF tokens protection using `withXsrfConfiguration` to secure HTTP requests. Even though it is enabled by default, I would like to underline security practices
+
+- npm audit
+I'm using Components with Known Vulnerabilities
 
 ---
 

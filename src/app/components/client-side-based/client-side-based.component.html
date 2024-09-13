@@ -9,7 +9,8 @@
     </mat-form-field>
   
     <div class="table-wrapper">
-      <table mat-table [dataSource]="dataSource" matSort>
+      <table mat-table [dataSource]="dataSource" matSort >
+
         <!-- Column definitions -->
         <ng-container matColumnDef="number">
           <th mat-header-cell *matHeaderCellDef mat-sort-header>Number</th>
@@ -36,10 +37,15 @@
       </table>
   
       <mat-paginator 
-      [length]="100"
-      [pageSize]="10"
-      [pageSizeOptions]="[5, 10, 25, 100]"
+        [length]="[2]"
+        [pageSize]="[2]"
+        [pageSizeOptions]="[5, 10, 25, 100]"
 
-        showFirstLastButtons></mat-paginator>
+        (page)="onPageChange($event)"
+
+        [pageSizeOptions]="pageSizes" 
+        aria-label="Select page" 
+        showFirstLastButtons
+      />
     </div>
   </mat-card>

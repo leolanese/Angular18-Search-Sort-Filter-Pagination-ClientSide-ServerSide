@@ -1,6 +1,6 @@
 import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { provideRouter } from '@angular/router';
-import { provideHttpClient, withInterceptors } from '@angular/common/http';
+import { PreloadAllModules, provideRouter, withPreloading } from '@angular/router';
+import { provideHttpClient, withInterceptors, withXsrfConfiguration } from '@angular/common/http';
 
 import { routes } from './app.routes';
 import { httpRequestInterceptor } from './services/http.request.interceptor';
@@ -16,6 +16,14 @@ export const appConfig: ApplicationConfig = {
           urlsNotToCache: ['/users'],
           globalTTL: 3000,
         }),
-      ])),
-    provideZoneChangeDetection({ eventCoalescing: true }), provideRouter(routes), provideAnimationsAsync()]
+      ]),
+      withXsrfConfiguration({
+        cookieName: 'TOKEN', // 'XSRF-TOKEN'
+        headerName: 'X-TOKEN' // 'X-XSRF-TOKEN'
+      })
+      ),
+      provideZoneChangeDetection({ eventCoalescing: true }), 
+      provideRouter(routes, withPreloading(PreloadAllModules)), // Use withPreloading function
+      provideAnimationsAsync()
+  ]
 };
