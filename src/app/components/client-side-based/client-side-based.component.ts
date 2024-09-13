@@ -47,7 +47,6 @@ class CustomDataSource extends DataSource<ResponseItem> {
   }
 }
 
-
 function compare(a: string | number, b: string | number, isAsc: boolean) {
   return (a < b ? -1 : 1) * (isAsc ? 1 : -1);
 }
@@ -66,19 +65,22 @@ function compare(a: string | number, b: string | number, isAsc: boolean) {
   styleUrl: './client-side-based.component.scss'
 })
 export class ClientSideBasedComponent implements OnInit, AfterViewInit {
+  private clientSideBasedPaginationService = inject(ClientSideBasedPaginationService)
+
   columnsToDisplay: string[] = ['title', 'number', 'created', 'state'];
-  pageSizes = [2, 5, 10, 20];
+  pageSizes = [5, 10, 20];
   isLoading = true;
   currentPage = 1;
 
   dataSource: CustomDataSource;
+  private isUpdating = false; // Flag to prevent infinite loop
 
   @ViewChild(MatPaginator, { static: true }) paginator!: MatPaginator;
   @ViewChild(MatSort, { static: false }) sort!: MatSort;
 
   searchKeywordFilter = new FormControl('');
 
-  constructor(private clientSideBasedPaginationService: ClientSideBasedPaginationService) {
+  constructor() {
     this.dataSource = new CustomDataSource(this.clientSideBasedPaginationService);
   }
 
@@ -129,15 +131,35 @@ export class ClientSideBasedComponent implements OnInit, AfterViewInit {
           const data = this.dataSource['dataSubject'].value;
           const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
 
-          // TODO FIX INITIAL PAGESIZE to 5
-console.log(data.slice(startIndex, startIndex + this.paginator.pageSize))
+          console.log( this.pageSizes )
 
           return data.slice(startIndex, startIndex + this.paginator.pageSize);
         })
       )
       .subscribe(paginatedData => { 
-        this.dataSource['dataSubject'].next(paginatedData);
+        this.updatePaginatedData(paginatedData);
       });
+
+    // this.paginator.pageSize = 5;
+
+    this.dataSource.connect().pipe(
+      map(data => {
+        const startIndex = this.paginator.pageIndex * this.paginator.pageSize;
+        return data.slice(startIndex, startIndex + this.paginator.pageSize);
+      })
+    ).subscribe(paginatedData => {
+      this.updatePaginatedData(paginatedData);
+    });
+  }
+
+  private updatePaginatedData(paginatedData: ResponseItem[]) {
+    // Update the data subject with the paginated data
+    if (!this.isUpdating) {
+      this.isUpdating = true;
+      // Update the data subject with the paginated data
+      this.dataSource['dataSubject'].next(paginatedData);
+      this.isUpdating = false;
+    }
   }
 
   private getSortedData(data: ResponseItem[]): ResponseItem[] {
@@ -169,5 +191,4 @@ console.log(data.slice(startIndex, startIndex + this.paginator.pageSize))
   }
 
 
-  
 }
