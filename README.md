@@ -77,6 +77,9 @@ I'm using modern function Interceptors (Angular 15+) this contribute to a better
 - `Lazy-Loading` & `Tree-Shaking`
 I'm using `provideRouter(routes, withPreloading(PreloadAllModules))` to improve performance by splitting the application. Also using standAlone Components and `.inject()` to help tree-shaking.
 
+- `PreloadingStrategy`
+Preloading is a technique in Angular that allows the application to load lazy-loaded modules in the background while the user is interacting with the currently loaded module
+
 - Implement Caching:
 -- `Cache API Service Calls`
 Caches identical HTTP requests within a single component:
