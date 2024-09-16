@@ -74,11 +74,10 @@ Using Modern `Dependency Injection functions`, instead traditional `constructor-
 - Using Modern `Function-based Interceptor`
 I'm using modern function Interceptors (Angular 15+) this contribute to a better tree-shakability due to their simplicity, reduced overhead, and a more direct approach to handling HTTP requests
 
-- `Lazy-Loading` & `Tree-Shaking`
-I'm using `provideRouter(routes, withPreloading(PreloadAllModules))` to improve performance by splitting the application. Also using standAlone Components and `.inject()` to help tree-shaking.
+- PreloadingStrategy: `Lazy-Loading` & `Tree-Shaking`
+I'm implementing `Preloading` technique using `provideRouter(routes, withPreloading(PreloadAllModules))` to improve performance by splitting the application. Also using standAlone Components and `.inject()` to help tree-shaking. 
+Results: This technique allows my App to load lazy-loaded modules in the background while the user is interacting with the currently loaded module
 
-- `PreloadingStrategy`
-Preloading is a technique in Angular that allows the application to load lazy-loaded modules in the background while the user is interacting with the currently loaded module
 
 - Implement Caching:
 -- `Cache API Service Calls`
