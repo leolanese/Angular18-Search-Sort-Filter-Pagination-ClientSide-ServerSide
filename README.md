@@ -75,7 +75,7 @@ Using Modern `Dependency Injection functions`, instead traditional `constructor-
 I'm using modern function Interceptors (Angular 15+) this contribute to a better tree-shakability due to their simplicity, reduced overhead, and a more direct approach to handling HTTP requests
 
 - PreloadingStrategy: `Lazy-Loading` & `Tree-Shaking`
-I'm implementing `Preloading` technique using `provideRouter(routes, withPreloading(PreloadAllModules))` to improve performance by splitting the application. Also using standAlone Components and `.inject()` to help tree-shaking. 
+I'm implementing `Preloading` technique provideRouter(routes, withPreloading(PreloadAllModules)). Also using standAlone Components and `.inject()` to help tree-shaking.
 Results: This technique allows my App to load lazy-loaded modules in the background while the user is interacting with the currently loaded module
 
 
@@ -90,8 +90,32 @@ Caches identical HTTP requests across multiple components. I am implementing a `
 I'm using provides a more declarative and efficient way to handle automatic cleanup tasks when a component or service is destroyed: `takeUntilDestroyed(this.destroyRef)` to automatically unsubscribe when the component is destroyed, simplifying the cleanup process even further
 
 - `Angular control flows` syntax: `@for`, `@empty`, etc
-Using modern angular control flows offering granular implmentations.
-Results: Better runtime performance than *ngFor (especially for large lists) and smaller size components
+Using modern angular control flows offering granular implementations.
+Results: Better runtime performance than *ngFor (especially for large lists) and smaller size Components
+
+- Avoid `Double instantiation`, when using `@Module`.
+> If we have a new granular @Module, `remove the references in the global root app.module`
+> We need to leave the App `feature-based module organised`
+```js
+// global app.module
+@Module({
+  controllers: [AppController, CoffeesController], // remove `CoffeesController`
+  providers: [AppService, CoffeeService, CoffeeService], // remove `CoffeeService`
+})
+
+// new more granular c.module
+@Module({
+  controllers: [AppController, CoffeesController],
+  providers: [AppService, CoffeeService, CoffeeService],
+})
+
+@Module({
+  imports: [cModule],
+  controllers: [AppController, CoffeesController], // remove `CoffeesController`
+  providers: [AppService, CoffeeService, CoffeeService], // remove `CoffeeService`
+})
+```
+
 
 ---
 
@@ -119,6 +143,11 @@ I'm using StoryBook setup as part of the project [WIP]
 
 - browserlist
 I'm using BrowserList and reduced to optimal
+
+- UX/UI improvements by `Pagination` + `Query Parameters`
+
+- ## UX improvements by `user-friendly` error messages
+
 
 
 ---
