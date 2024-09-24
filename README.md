@@ -219,10 +219,50 @@ significantly faster than traditional bundlers like Webpack, leading to shorter 
 
 ## Security
 
-- XSS Protection
-Keep Sanitation active for use <input />. 
-Don't use `localStorage` nor `cookies` for token credentials as <iframe> can by-pass the Angular sanitation. 
-Use `HttpOnly Cookies`, as they are not accessible using js running in the browser, are immune to this type of XSS attack. However, they are vulnerable to CSRF attacks.
+### XSS Protection (1st Line of Defense)
+
+Angular automatically protects against XSS by sanitizing untrusted content in templates, avoid disabling
+Keep Sanitation active for users <input />. 
+
+Don't use `localStorage` nor `cookies` for token credentials, because <iframe> can by-passed the Angular sanitation. 
+Instead rely on server-side `HttpOnly Cookies`, as they are not accessible using js running in the browser, are immune to this type of XSS attack (However, they are vulnerable to XSRF attacks) AND `secure flag on a cookies`  ensuring that the cookie is only sent over HTTPS connections, not over plain HTTP.
+
+Be careful when using [innerHTML] property binding as directly injects HTML content into the DOM and this Bypasses Angular's Sanitation. `When using innerHTML, always sanitize it with Angular DomSanitizer`
+
+```js
+// NEST
+@Post('login')
+login(@Body() body: any, @Res() res: Response) {
+  const token = this.generateJwtToken(body.user); // Generate JWT or some other token
+
+  // Set the token in an httpOnly cookie
+  res.cookie('authToken', token, {
+    httpOnly: true,  // Inaccessible to client-side JS
+    secure: true,    // Ensure cookie is sent over HTTPS
+    sameSite: 'strict', // Prevent CSRF attacks
+    maxAge: 24 * 60 * 60 * 1000 // 1 day expiration
+  });
+
+  return res.status(200).json({ message: 'Login successful' });
+}
+```
+
+
+### CSP (2nd Line of Defense)
+
+Set of directives to define a rules that control the `origin of sources` from which various types of content can be loaded and executed in our web application
+
+As one step forward, we could implement a `Monitor CSP Violation Policy`: usign `report-uri` + `Content-Security-Policy-Report-Only`. Now, when the browser detects a violation of the CSP, it sends a report to the specified URL in JSON format.
+
+```js
+// angular.json
+"headers": {
+  "Content-Security-Policy-Report-Only": "default-src 'self'; report-uri https://csrfexample.com:3443/reportViolations"
+}
+```
+
+
+
 
 - XSRF Protection
 I configured cookie name and header name for XSRF tokens protection using `withXsrfConfiguration` to secure HTTP requests. Even though it is enabled by default, I would like to underline security practices
