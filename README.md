@@ -95,7 +95,6 @@ Results: Better runtime performance than *ngFor (especially for large lists) and
 
 - Avoid `Double instantiation`, when using `@Module`.
 > If we have a new granular @Module, `remove the references in the global root app.module`
-> We need to leave the App `feature-based module organised`
 ```js
 // global app.module
 @Module({
@@ -115,6 +114,10 @@ Results: Better runtime performance than *ngFor (especially for large lists) and
   providers: [AppService, CoffeeService, CoffeeService], // remove `CoffeeService`
 })
 ```
+
+- Keep Application `modularized` 
+> We need to leave the App encapsualted into its own dedicated portable Module, so we can have a `feature-based module organised`
+
 
 
 ---
@@ -216,10 +219,20 @@ significantly faster than traditional bundlers like Webpack, leading to shorter 
 
 ## Security
 
+- XSS Protection
+Keep Sanitation active for use <input />. 
+Don't use `localStorage` nor `cookies` for token credentials as <iframe> can by-pass the Angular sanitation. 
+Use `HttpOnly Cookies`, as they are not accessible using js running in the browser, are immune to this type of XSS attack. However, they are vulnerable to CSRF attacks.
+
 - XSRF Protection
 I configured cookie name and header name for XSRF tokens protection using `withXsrfConfiguration` to secure HTTP requests. Even though it is enabled by default, I would like to underline security practices
 
-- npm audit
+- Audit
+
+```js
+npm audit
+```
+
 I'm using Components with Known Vulnerabilities
 
 ---
