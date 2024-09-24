@@ -225,9 +225,10 @@ Angular automatically protects against XSS by sanitizing untrusted content in te
 Keep Sanitation active for users <input />. 
 
 Don't use `localStorage` nor `cookies` for token credentials, because <iframe> can by-passed the Angular sanitation. 
-Instead rely on server-side `HttpOnly Cookies`, as they are not accessible using js running in the browser, are immune to this type of XSS attack (However, they are vulnerable to XSRF attacks) AND `secure flag on a cookies`  ensuring that the cookie is only sent over HTTPS connections, not over plain HTTP.
+Instead rely on server-side `HttpOnly Cookies`, as they are not accessible using js running in the browser, are immune to this type of XSS attack (However, they are vulnerable to XSRF attacks) AND `Secure Flag on a cookies`  ensuring that the cookie is only sent over HTTPS connections, not over plain HTTP.
 
-Be careful when using [innerHTML] property binding as directly injects HTML content into the DOM and this Bypasses Angular's Sanitation. `When using innerHTML, always sanitize it with Angular DomSanitizer`
+Be careful when using [innerHTML] property binding as directly injects HTML content into the DOM and this Bypasses Angular's Sanitation. `When using innerHTML, always sanitize it with Angular DomSanitizer`.
+Dont use `ElementRef` for DOM monipulation use `Renderer2` instead. `ElementRef` by-pass sanitation and poses security risk, also creates tight coupling between your application and rendering layers which makes is difficult to run an app on multiple platforms.
 
 ```js
 // NEST
@@ -252,6 +253,19 @@ login(@Body() body: any, @Res() res: Response) {
 
 Set of directives to define a rules that control the `origin of sources` from which various types of content can be loaded and executed in our web application
 
+```js
+// Headers
+<meta http-equiv="Content-Security-Policy" 
+      content="
+        default-src 'self'; 
+        script-src 'self' https://apis.google.com; 
+        style-src 'self' https://fonts.googleapis.com; 
+        img-src 'self' https://images.example.com; 
+        object-src 'none'; 
+        frame-ancestors 'self';
+       ">
+```
+
 As one step forward, we could implement a `Monitor CSP Violation Policy`: usign `report-uri` + `Content-Security-Policy-Report-Only`. Now, when the browser detects a violation of the CSP, it sends a report to the specified URL in JSON format.
 
 ```js
@@ -265,7 +279,30 @@ As one step forward, we could implement a `Monitor CSP Violation Policy`: usign 
 
 
 - XSRF Protection
+Angular provides XSRF protection out-of-the-box and enable by default, by adding a custom header containing a random token provided by the server in a cookie (which is a common technic to mitigate these attacks)
+
+```js
+import { bootstrapApplication } from '@angular/core';
+import { provideHttpClient, withXsrfConfiguration } from '@angular/common/http';
+import { AppComponent } from './app.component';
+
+bootstrapApplication(AppComponent, {
+  providers: [
+    provideHttpClient(
+      withXsrfConfiguration({
+        cookieName: 'TOKEN', // default is 'XSRF-TOKEN'
+        headerName: 'X-TOKEN' // default is 'X-XSRF-TOKEN'
+      })
+    )]
+});
+```
+
+This protection is implemented through the use of an anti-XSRF token that is automatically included in all requests made by the Angular framework. We can integrate it with `server-side CSRF protection mechanisms` by ensuring the XSRF token is included in our HTTP requests.
+
 I configured cookie name and header name for XSRF tokens protection using `withXsrfConfiguration` to secure HTTP requests. Even though it is enabled by default, I would like to underline security practices
+
+
+
 
 - Audit
 
