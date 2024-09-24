@@ -240,7 +240,7 @@ login(@Body() body: any, @Res() res: Response) {
   res.cookie('authToken', token, {
     httpOnly: true,  // Inaccessible to client-side JS
     secure: true,    // Ensure cookie is sent over HTTPS
-    sameSite: 'strict', // Prevent CSRF attacks
+    sameSite: 'strict', // Prevent XSRF attacks
     maxAge: 24 * 60 * 60 * 1000 // 1 day expiration
   });
 
