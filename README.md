@@ -228,7 +228,7 @@ Don't use `localStorage` nor `cookies` for token credentials, because <iframe> c
 Instead rely on server-side `HttpOnly Cookies`, as they are not accessible using js running in the browser, are immune to this type of XSS attack (However, they are vulnerable to XSRF attacks) AND `Secure Flag on a cookies`  ensuring that the cookie is only sent over HTTPS connections, not over plain HTTP.
 
 Be careful when using [innerHTML] property binding as directly injects HTML content into the DOM and this Bypasses Angular's Sanitation. `When using innerHTML, always sanitize it with Angular DomSanitizer`.
-Dont use `ElementRef` for DOM monipulation use `Renderer2` instead. `ElementRef` by-pass sanitation and poses security risk, also creates tight coupling between your application and rendering layers which makes is difficult to run an app on multiple platforms.
+Don't use `ElementRef` for DOM monipulation use `Renderer2` instead. `ElementRef` by-pass sanitation and poses security risk, also creates tight coupling between your application and rendering layers which makes is difficult to run an app on multiple platforms.
 
 ```js
 // NEST
@@ -278,8 +278,9 @@ As one step forward, we could implement a `Monitor CSP Violation Policy`: usign 
 
 
 
-- XSRF Protection
-Angular provides XSRF protection out-of-the-box and enable by default, by adding a custom header containing a random token provided by the server in a cookie (which is a common technic to mitigate these attacks)
+###  XSRF Protection
+
+Angular provides XSRF protection out-of-the-box, enable by default, by adding a `custom header` containing a random token provided by the server in a cookie
 
 ```js
 import { bootstrapApplication } from '@angular/core';
@@ -306,11 +307,13 @@ I configured cookie name and header name for XSRF tokens protection using `withX
 
 - Audit
 
+Check dependencies with known vulnerabilities
+
 ```js
 npm audit
 ```
 
-I'm using Components with Known Vulnerabilities
+
 
 ---
 
