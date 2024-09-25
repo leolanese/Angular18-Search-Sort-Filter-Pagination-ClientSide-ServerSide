@@ -143,13 +143,14 @@ I'm using snackBar Modal to visually indicate errors fetching the data to improv
 I'm using StoryBook setup as part of the project [WIP]
 
 - RWD and MF
+Create Components, from small to large screens, that can work across "most" viewports environment with minimal adjustments. 
 
 - browserlist
-I'm using BrowserList and reduced to optimal
+Focus the target on a list. 
 
 - UX/UI improvements by `Pagination` + `Query Parameters`
 
-- ## UX improvements by `user-friendly` error messages
+- UX improvements by `user-friendly` error messages
 
 
 
@@ -208,12 +209,14 @@ I'm implementing and analysing the bundles and content of our application and ge
 Best practices to analyse the size of individual files within our JS bundle.
 Results: A precise mapping between source code and bundled code. Best for detailed, text-based analysis of our bundle size with precise mapping back to our source code. Ideal for CI/CD environments and detailed size investigations.
 
-- Using Detective
-I'm using Detective to analyse the codebase to identify patterns and dependencies that might not be immediately apparent, by revealing hidden patterns, we can highlight areas for refactoring, optimisation, or potential issues, leading to improved code quality and maintainability
+- Using `Detective`
+
+Using Detective to analyse the codebase to identify patterns and dependencies that might not be immediately apparent, by revealing hidden patterns, we can highlight areas for refactoring, optimisation, or potential issues, leading to improved code quality and maintainability
 
 
-- esbuild
-significantly faster than traditional bundlers like Webpack, leading to shorter build times and improved developer productivity
+- Using `esbuild` - An extremely fast bundler for the web
+
+Significantly faster than traditional bundlers like Webpack, leading to shorter build times and improved developer productivity
 
 ---
 
