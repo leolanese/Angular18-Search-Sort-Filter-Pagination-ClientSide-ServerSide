@@ -307,7 +307,7 @@ I configured cookie name and header name for XSRF tokens protection using `withX
 
 - Audit
 
-Check dependencies with known vulnerabilities
+Check dependencies with known vulnerabilities. Ensuring that these dependencies don't contain any known security vulnerabilities is very important for the overall security of your website.
 
 ```js
 npm audit
