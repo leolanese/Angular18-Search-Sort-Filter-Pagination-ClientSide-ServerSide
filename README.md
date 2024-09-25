@@ -152,8 +152,6 @@ Focus the target on a list.
 
 - UX improvements by `user-friendly` error messages
 
-
-
 ---
 
 ## Build and CI/CD
@@ -203,9 +201,11 @@ I defined a ~safe angular build budget adjusting to the expectation of the test
 ```
 
 - Using `webpack-bundle-analyzer`
+
 I'm implementing and analysing the bundles and content of our application and get a better understading the "chuncks". Best for visual, interactive analysis of our bundle's composition. Provides a clear, intuitive view of which modules are contributing most to our bundle size.
 
 - Using Source Map Explorer
+
 Best practices to analyse the size of individual files within our JS bundle.
 Results: A precise mapping between source code and bundled code. Best for detailed, text-based analysis of our bundle size with precise mapping back to our source code. Ideal for CI/CD environments and detailed size investigations.
 
@@ -215,8 +215,9 @@ Using Detective to analyse the codebase to identify patterns and dependencies th
 
 
 - Using `esbuild` - An extremely fast bundler for the web
-
 Significantly faster than traditional bundlers like Webpack, leading to shorter build times and improved developer productivity
+
+If you're using Angular 16 with the esbuild-based build system ("builder": "@angular-devkit/build-angular:browser-esbuild"), you do not need to install esbuild manually. Angular 16 already comes with built-in support for esbuild as part of the Angular CLI, 
 
 ---
 
