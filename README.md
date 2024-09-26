@@ -214,7 +214,7 @@ Results: A precise mapping between source code and bundled code. Best for detail
 Using Detective to analyse the codebase to identify patterns and dependencies that might not be immediately apparent, by revealing hidden patterns, we can highlight areas for refactoring, optimisation, or potential issues, leading to improved code quality and maintainability
 
 
-- Using `esbuild` - An extremely fast bundler for the web
+- Using `esbuild` - An extremely fast bundler for the web = Angular 16+ esbuild-based build system
 Significantly faster than traditional bundlers like Webpack, leading to shorter build times and improved developer productivity
 
 If you're using Angular 16 with the esbuild-based build system ("builder": "@angular-devkit/build-angular:browser-esbuild"), you do not need to install esbuild manually. Angular 16 already comes with built-in support for esbuild as part of the Angular CLI, 
