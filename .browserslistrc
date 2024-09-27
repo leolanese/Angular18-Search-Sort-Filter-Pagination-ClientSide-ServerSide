@@ -1,12 +1,16 @@
-# Browsers that we support
+# This file is used by the build system to adjust CSS and JS output to support the specified browsers below.
+# For additional information regarding the format and rule options, please see:
+# https://github.com/browserslist/browserslist#queries
 
-[production]
-> 1%
-not dead
+# For the full list of supported browsers by the Angular framework, please see:
+# https://angular.io/guide/browser-support
 
-[modern]
-last 1 chrome version
-last 1 firefox version
+# You can see what browsers were selected by your queries by running:
+#   npx browserslist
 
-[ssr]
-node 12
+last 1 Chrome version
+last 1 Firefox version
+last 2 Edge major versions
+last 2 Safari major versions
+last 2 iOS major versions
+Firefox ESR

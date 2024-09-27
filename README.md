@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 
 ```jsw
-ng new company-test --routing false --style css --skip-git --skip-tests
+ng new company-test --routing false --style scss --skip-git --skip-tests
 cd company-test
 
 ng v
@@ -93,7 +93,7 @@ I'm using provides a more declarative and efficient way to handle automatic clea
 Using modern angular control flows offering granular implementations.
 Results: Better runtime performance than *ngFor (especially for large lists) and smaller size Components
 
-- Avoid `Double instantiation`, when using `@Module`.
+- Always avoid `Double instantiation`, when using `@Module`.
 > If we have a new granular @Module, `remove the references in the global root app.module`
 ```js
 // global app.module
@@ -118,7 +118,12 @@ Results: Better runtime performance than *ngFor (especially for large lists) and
 - Keep Application `modularized` 
 > We need to leave the App encapsualted into its own dedicated portable Module, so we can have a `feature-based module organised`
 
+---
 
+## TS recomendations
+
+-  Arrow Function in services is Preferable
+> Since arrow functions capture the this value of their enclosing context at the time they're defined, they retain the correct this reference no matter how they're called.
 
 ---
 

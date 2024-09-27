@@ -12,22 +12,20 @@ export class APIService {
   http = inject(HttpClient);
   private apiRooturl = "https://jsonplaceholder.typicode.com/";
 
-  getTerm(term: string): Observable<any[]> {
+  //  arrow functions capture the this value of their enclosing context at the time they're defined, 
+  // they retain the correct this reference no matter how they're called.
+  getTerm = (term: string): Observable<any[]> => {
     let apiUrl =  `${this.apiRooturl}${term}`;
 
     return this.http.get<any[]>(apiUrl)
       .pipe(
           debounceTime(300),
-          map(res => {
-            return res.map(item => {
-              return {
-                id: item.id,
-                name: item.name,
-                username: item.username,
-                email: item.email
-              } as any;
-            });
-          }),
+          map(res => res.map(item => ({
+            id: item.id,
+            name: item.name,
+            username: item.username,
+            email: item.email
+          }))),
           shareReplay(1), // Cache the latest response and replay it to new subscribers
         );
   }
