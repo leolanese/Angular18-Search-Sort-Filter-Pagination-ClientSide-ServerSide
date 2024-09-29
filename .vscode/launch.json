@@ -1,7 +1,21 @@
 {
-  // For more information, visit: https://go.microsoft.com/fwlink/?linkid=830387
   "version": "0.2.0",
   "configurations": [
+    {
+      "name": "Debug Program",
+      "type": "node",
+      "request": "launch",
+
+      "skipFiles": [
+        "<node_internals>/**",
+        "node_modules/**/*.js"
+      ],
+      "preLaunchTask": "npm: build",
+      "sourceMaps": true,
+      "smartStep": true,
+      "program": "${workspaceFolder}/src/main.ts",
+      "console": "integratedTerminal",
+    },
     {
       "name": "ng serve",
       "type": "chrome",
