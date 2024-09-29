@@ -6,15 +6,12 @@
       "type": "node",
       "request": "launch",
 
-      "skipFiles": [
-        "<node_internals>/**",
-        "node_modules/**/*.js"
-      ],
+      "skipFiles": ["<node_internals>/**", "node_modules/**/*.js"],
       "preLaunchTask": "npm: build",
       "sourceMaps": true,
       "smartStep": true,
       "program": "${workspaceFolder}/src/main.ts",
-      "console": "integratedTerminal",
+      "console": "integratedTerminal"
     },
     {
       "name": "ng serve",

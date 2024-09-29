@@ -1,370 +1,352 @@
 {
-    "editor.suggest.showWords": false,
-    "editor.codeActionsOnSave": {
-      "source.organizeImports": "always",
-      "source.fixAll.eslint": "always"
-    },
-    "eslint.validate": [
-      "javascript",
-      "typescript"
-    ],
-    "typescript.suggestionActions.enabled": true,
-    "typescript.inlayHints.parameterNames.enable": false,
-    "typescript.inlayHints.propertyDeclarationTypes.enabled": false,
-    "typescript.inlayHints.parameterTypes.enabled": true,
-    "terminal.explorerKind": "integrated",
-    "editor.renderWhitespace": "boundary",
-    "workbench.tree.indent": 16,
-    "workbench.editor.highlightModifiedTabs": true,
-    "editor.tabCompletion": "on",
-    // Configure glob patterns for excluding files and folders in searches.
-    // Inherits all glob patterns from the files.exclude setting.
-    "search.exclude": {
-      "**/node_modules": false,
-      "**/node_modules/**": true,
-      "**/jspm_packages": true,
-      "**/bower_components": true,
-      "**/.git": true,
-      "**/.svn": true,
-      "**/.hg": true,
-      "**/CVS": true,
-      "**/.DS_Store": true,
-      "**/*.specs.ts": true,
-      "**/build": true,
-      "**/dist/**": true,
-      "**/.vscode/**": true
-    },
-    // Controls whether the search results will be collapsed or expanded.
-    //  - auto: Files with less than 10 results are expanded. Others are collapsed.
-    //  - alwaysCollapse
-    //  - alwaysExpand
-    "window.openFoldersInNewWindow": "off",
-    "window.restoreWindows": "all",
-    // Controls whether the parameter hints menu cycles or closes when reaching the end of the list.
-    "editor.parameterHints.cycle": false,
-    // Enables a pop-up that shows parameter documentation and type information as you type.
-    "editor.parameterHints.enabled": true,
-    // Inline view: Toggle inline view by clicking the More (...) button in the top right and selecting Switch to Inline View.
-    "search.collapseResults": "alwaysCollapse",
-    // hide scrollbar/minimap
-    "editor.minimap.enabled": false,
-    //  see variable values inline in the debugger
-    "debug.inlineValues": "on",
-    "editor.formatOnSave": true,
-    "editor.fontFamily": "Fira Code, Cascadia Code, Menlo, Monaco, 'Courier New', monospace",
-    "editor.cursorBlinking": "phase",
-    "editor.cursorStyle": "line",
-    "editor.mouseWheelZoom": false,
-    "editor.cursorWidth": 2,
-    "editor.fontWeight": "400",
-    "editor.guides.bracketPairs": "active",
-    "editor.guides.bracketPairsHorizontal": false,
-    "editor.guides.indentation": false,
-    "editor.guides.highlightActiveBracketPair": true,
-    "git.showPushSuccessNotification": true,
-    "merge-conflict.decorators.enabled": true,
-    "workbench.list.horizontalScrolling": false,
-    "editor.wordWrapColumn": 120,
-    "files.exclude": {
-      "**/*.specs": true
-    },
-    // The number of spaces a tab is equal to.
-    "editor.tabSize": 2,
-    "editor.fontSize": 16,
-    "gitlens.advanced.messages": {
-      "suppressCommitHasNoPreviousCommitWarning": false,
-      "suppressCommitNotFoundWarning": false,
-      "suppressFileNotUnderSourceControlWarning": false,
-      "suppressGitVersionWarning": false,
-      "suppressLineUncommittedWarning": false,
-      "suppressNoRepositoryWarning": false,
-      "suppressResultsExplorerNotice": false,
-      "suppressShowKeyBindingsNotice": true,
-      "suppressUpdateNotice": true,
-      "suppressWelcomeNotice": true
-    },
-    "scss.lint.boxModel": "warning",
-    "scss.lint.duplicateProperties": "warning",
-    "scss.lint.float": "warning",
-    "scss.lint.idSelector": "warning",
-    "scss.lint.important": "warning",
-    "scss.lint.importStatement": "warning",
-    "scss.lint.universalSelector": "warning",
-    "scss.lint.zeroUnits": "warning",
-    "javascript.format.enable": false,
-    "javascript.format.insertSpaceAfterCommaDelimiter": false,
-    "javascript.format.insertSpaceAfterKeywordsInControlFlowStatements": false,
-    "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
-    "javascript.format.insertSpaceBeforeAndAfterBinaryOperators": false,
-    "javascript.format.insertSpaceAfterSemicolonInForStatements": false,
-    "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
-    "typescript.format.enable": false,
-    "typescript.format.insertSpaceBeforeAndAfterBinaryOperators": false,
-    "typescript.format.insertSpaceAfterCommaDelimiter": false,
-    "typescript.format.insertSpaceAfterKeywordsInControlFlowStatements": false,
-    "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
-    "typescript.format.insertSpaceAfterSemicolonInForStatements": false,
-    "typescript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
-    "workbench.tips.enabled": false,
-    "workbench.tree.renderIndentGuides": "always",
-    "workbench.view.alwaysShowHeaderActions": true,
-    "editor.formatOnPaste": true,
-    "editor.fontLigatures": false,
-    "editor.multiCursorModifier": "ctrlCmd",
-    "editor.snippetSuggestions": "top",
-    "editor.detectIndentation": false,
-    "explorer.confirmDragAndDrop": false,
-    "explorer.confirmDelete": false,
-    "files.autoSaveDelay": 10000,
-    "files.autoSave": "onFocusChange",
-    "workbench.sideBar.location": "left",
-    "breadcrumbs.enabled": true,
-    "search.useIgnoreFiles": true,
-    "prettier.disableLanguages": [
-      // Remove languages you want Prettier to handle
-      "html",
-      "scss",
-      "javascript",
-      "typescript"
-    ],
-    "colorize.colorized_colors": [
-      "HEXA"
-    ],
-    "window.titleBarStyle": "custom",
-    "yaml.schemas": {
-      "file:///Users/antoniyz/.vscode/extensions/atlassian.atlascode-2.9.1/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"
-    },
-    "workbench.editor.scrollToSwitchTabs": true,
-    "diffEditor.ignoreTrimWhitespace": false,
-    "files.eol": "\n",
-    "typescript.preferences.quoteStyle": "single",
-    "atlascode.jira.lastCreateSiteAndProject": {
-      "siteId": "plan.tomandco.uk",
-      "projectKey": "ABB"
-    },
-    "workbench.colorTheme": "Default Dark+",
-    "remote.SSH.connectTimeout": 30,
-    "typescript.updateImportsOnFileMove.enabled": "always",
-    // no formater
-    // "editor.defaultFormatter": null
-    // prettier
-    // "editor.defaultFormatter": esbenp.prettier-vscode,
-    // built in html VSCode formatter for html.
-    // "editor.defaultFormatter": "vscode.html-language-features"
-    "[html]": {
-      "editor.defaultFormatter": "vscode.html-language-features"
-    },
-    "[typescript]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[json]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "[javascript]": {
-      "editor.defaultFormatter": "esbenp.prettier-vscode"
-    },
-    "editor.minimap.maxColumn": 140,
-    "editor.suggestSelection": "first",
-    "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
-    "angular.experimental-ivy": true,
-    "tabnine.experimentalAutoImports": true,
-    "workbench.editor.enablePreview": false,
-    "terminal.integrated.fontFamily": "monospace",
-    "files.saveConflictResolution": "overwriteFileOnDisk",
-    "workbench.colorCustomizations": {
-      "tab.activeBorder": "#39739d",
-      "tab.activeForeground": "#fff",
-      "tab.hoverBackground": "#2a4646",
-      "tab.activeBackground": "#282828",
-      "tab.border": "#000",
-      "tab.activeModifiedBorder": "#ff0000",
-      "activityBar.background": "#000",
-      "titleBar.activeBackground": "#191919cc",
-      "titleBar.activeForeground": "#ffffff",
-      "titleBar.inactiveForeground": "#000000CC",
-      "titleBar.inactiveBackground": "#ffc600CC",
-      "sideBar.background": "#000000",
-      "sideBar.foreground": "#d7d7d7",
-      "list.hoverBackground": "#39739d",
-      "list.hoverForeground": "#aaff00",
-      "list.activeSelectionBackground": "#39739d",
-      "editorLineNumber.activeForeground": "#00aaff",
-      "editor.background": "#1a1a1a",
-      "editor.colorDecorators": true,
-    },
-    "editor.quickSuggestions": {
-      "other": true,
-      "comments": true,
-      "strings": false
-    },
-    // Controls the delay in milliseconds after which quick suggestions will show up.
-    "editor.quickSuggestionsDelay": 100,
-    // Enable/disable the ability to preview changes before renaming
-    "editor.rename.enablePreview": true,
-    // Render last line number when the file ends with a newline.
-    "editor.renderFinalNewline": "on",
-    // Controls how the editor should render the current line highlight.
-    //  - none
-    //  - gutter
-    //  - line
-    //  - all: Highlights both the gutter and the current line.
-    "editor.renderLineHighlight": "line",
-    // Controls whether the editor will scroll using an animation.
-    "editor.smoothScrolling": true,
-    // Controls whether an active snippet prevents quick suggestions.
-    "editor.suggest.snippetsPreventQuickSuggestions": true,
-    // Enable/disable autoclosing of HTML tags.
-    "html.autoClosingTags": true,
-    // A list of relative file paths pointing to JSON files following the custom data format.
-    // VS Code loads custom data on startup to enhance its HTML support for the custom HTML tags, attributes and attribute values you specify in the JSON files.
-    // The file paths are relative to workspace and only workspace folder settings are considered.
-    "html.customData": [],
-    // List of tags, comma separated, where the content shouldn't be reformatted. `null` defaults to the `pre` tag.
-    "html.format.contentUnformatted": "pre,code,textarea",
-    // Enable/disable default HTML formatter.
-    "html.format.enable": true,
-    // End with a newline.
-    "html.format.endWithNewline": false,
-    // List of tags, comma separated, that should have an extra newline before them. `null` defaults to `"head, body, /html"`.
-    "html.format.extraLiners": "head, body, /html",
-    // Format and indent ``.
-    "html.format.indentHandlebars": false,
-    // Indent `<head>` and `<body>` sections.
-    "html.format.indentInnerHtml": false,
-    // Maximum number of line breaks to be preserved in one chunk. Use `null` for unlimited.
-    "html.format.maxPreserveNewLines": null,
-    // Controls whether existing line breaks before elements should be preserved. Only works before elements, not inside tags or for text.
-    "html.format.preserveNewLines": true,
-    // Honor django, erb, handlebars and php templating language tags.
-    "html.format.templating": false,
-    // List of tags, comma separated, that shouldn't be reformatted.
-    "html.format.unformatted": "wbr",
-    // Keep text content together between this string.
-    "html.format.unformattedContentDelimiter": "",
-    // Wrap attributes.
-    //  - auto: Wrap attributes only when line length is exceeded.
-    //  - force: Wrap each attribute except first.
-    //  - force-aligned: Wrap each attribute except first and keep aligned.
-    //  - force-expand-multiline: Wrap each attribute.
-    //  - aligned-multiple: Wrap when line length is exceeded, align attributes vertically.
-    //  - preserve: Preserve wrapping of attributes.
-    //  - preserve-aligned: Preserve wrapping of attributes but align.
-    "html.format.wrapAttributes": "auto",
-    // Alignment size when using 'force aligned' and 'aligned multiple' in `html.format.wrapAttributes` or `null` to use the default indent size.
-    "html.format.wrapAttributesIndentSize": null,
-    // Maximum amount of characters per line (0 = disable).
-    "html.format.wrapLineLength": 120,
-    // Show tag and attribute documentation in hover.
-    "html.hover.documentation": true,
-    // Show references to MDN in hover.
-    "html.hover.references": true,
-    // Controls whether the built-in HTML language support suggests HTML5 tags, properties and values.
-    "html.suggest.html5": true,
-    // Traces the communication between VS Code and the HTML language server.
-    "html.trace.server": "off",
-    // Controls whether the built-in HTML language support validates embedded scripts.
-    "html.validate.scripts": true,
-    // Controls whether the built-in HTML language support validates embedded styles.
-    "html.validate.styles": true,
-    // CSS
-    // Insert semicolon at end of line when completing CSS properties.
-    "css.completion.completePropertyWithSemicolon": true,
-    // By default, VS Code triggers property value completion after selecting a CSS property. Use this setting to disable this behavior.
-    "css.completion.triggerPropertyValueCompletion": true,
-    // A list of relative file paths pointing to JSON files following the custom data format.
-    // VS Code loads custom data on startup to enhance its CSS support for the custom CSS properties, at directives, pseudo classes and pseudo elements you specify in the JSON files.
-    // The file paths are relative to workspace and only workspace folder settings are considered.
-    "css.customData": [],
-    // Show tag and attribute documentation in CSS hovers.
-    "css.hover.documentation": true,
-    // Show references to MDN in CSS hovers.
-    "css.hover.references": true,
-    // Invalid number of parameters.
-    "css.lint.argumentsInColorFunction": "error",
-    // Do not use `width` or `height` when using `padding` or `border`.
-    "css.lint.boxModel": "ignore",
-    // When using a vendor-specific prefix make sure to also include all other vendor-specific properties.
-    "css.lint.compatibleVendorPrefixes": "ignore",
-    // Do not use duplicate style definitions.
-    "css.lint.duplicateProperties": "ignore",
-    // Do not use empty rulesets.
-    "css.lint.emptyRules": "warning",
-    // Avoid using `float`. Floats lead to fragile CSS that is easy to break if one aspect of the layout changes.
-    "css.lint.float": "ignore",
-    // `@font-face` rule must define `src` and `font-family` properties.
-    "css.lint.fontFaceProperties": "warning",
-    // Hex colors must consist of three or six hex numbers.
-    "css.lint.hexColorLength": "error",
-    // Selectors should not contain IDs because these rules are too tightly coupled with the HTML.
-    "css.lint.idSelector": "ignore",
-    // IE hacks are only necessary when supporting IE7 and older.
-    "css.lint.ieHack": "ignore",
-    // Avoid using `!important`. It is an indication that the specificity of the entire CSS has gotten out of control and needs to be refactored.
-    "css.lint.important": "ignore",
-    // Import statements do not load in parallel.
-    "css.lint.importStatement": "ignore",
-    // Property is ignored due to the display. E.g. with `display: inline`, the `width`, `height`, `margin-top`, `margin-bottom`, and `float` properties have no effect.
-    "css.lint.propertyIgnoredDueToDisplay": "warning",
-    // The universal selector (`*`) is known to be slow.
-    "css.lint.universalSelector": "ignore",
-    // Unknown at-rule.
-    "css.lint.unknownAtRules": "warning",
-    // Unknown property.
-    "css.lint.unknownProperties": "warning",
-    // Unknown vendor specific property.
-    "css.lint.unknownVendorSpecificProperties": "ignore",
-    // A list of properties that are not validated against the `unknownProperties` rule.
-    "css.lint.validProperties": [],
-    // When using a vendor-specific prefix, also include the standard property.
-    "css.lint.vendorPrefix": "warning",
-    // No unit for zero needed.
-    "css.lint.zeroUnits": "ignore",
-    // Traces the communication between VS Code and the CSS language server.
-    "css.trace.server": "off",
-    // Enables or disables all validations.
-    "css.validate": true,
-    // Configures which processes to automatically attach and debug when `debug.node.autoAttach` is on. A Node process launched with the `--inspect` flag will always be attached to, regardless of this setting.
-    //  - always: Auto attach to every Node.js process launched in the terminal.
-    //  - smart: Auto attach when running scripts that aren't in a node_modules folder.
-    //  - onlyWithFlag: Only auto attach when the `--inspect` is given.
-    //  - disabled: Auto attach is disabled and not shown in status bar.
-    "debug.javascript.autoAttachFilter": "disabled",
-    // Configures glob patterns for determining when to attach in "smart" `debug.javascript.autoAttachFilter` mode. `$KNOWN_TOOLS$` is replaced with a list of names of common test and code runners.
-    "debug.javascript.autoAttachSmartPattern": [
-      "${workspaceFolder}/**",
-      "!**/node_modules/**",
-      "**/$KNOWN_TOOLS$/**"
-    ],
-    // Configures whether property getters will be expanded automatically. If this is false, the getter will appear as `get propertyName` and will only be evaluated when you click on it.
-    "debug.javascript.autoExpandGetters": false,
-    // When debugging a remote web app, configures whether to automatically tunnel the remote server to your local machine.
-    "debug.javascript.automaticallyTunnelRemoteServer": true,
-    // Whether to stop when conditional breakpoints throw an error. Note: your launch.json `type` must be prefixed with `pwa-` to use this, such as `pwa-node`.
-    "debug.javascript.breakOnConditionalError": false,
-    // Where a "Run" and "Debug" code lens should be shown in your npm scripts. It may be on "all", scripts, on "top" of the script section, or "never".
-    "debug.javascript.codelens.npmScripts": "top",
-    // Options used when debugging open links clicked from inside the JavaScript Debug Terminal. Can be set to "off" to disable this behavior, or "always" to enable debugging in all terminals.
-    "debug.javascript.debugByLinkOptions": "on",
-    // The default `runtimeExecutable` used for launch configurations, if unspecified. This can be used to config custom paths to Node.js or browser installations.
-    "debug.javascript.defaultRuntimeExecutable": {
-      "pwa-node": "node"
-    },
-    // Default options used when debugging a process through the `Debug: Attach to Node.js Process` command.
-    "debug.javascript.pickAndAttachOptions": {},
-    // Request options to use when loading resources, such as source maps, in the debugger. You may need to configure this if your sourcemaps require authentication or use a self-signed certificate, for instance. Options are used to create a request using the `got`library.
-    // A common case to disable certificate verification can be done by passing `{ "https": { "rejectUnauthorized": false } }`.
-    "debug.javascript.resourceRequestOptions": {},
-    // Whether to suggest pretty printing JavaScript code that looks minified when you step into it.
-    "debug.javascript.suggestPrettyPrinting": true,
-    // Default launch options for the JavaScript debug terminal and npm scripts.
-    "debug.javascript.terminalOptions": {},
-    // Configures whether sourcemapped file where the original file can't be read will automatically be unmapped. If this is false (default), a prompt is shown.
-    "debug.javascript.unmapMissingSources": false,
-    // Use the new in-preview JavaScript debugger for Node.js and Chrome.
-    "debug.javascript.usePreview": false,
-    // Controls whether to show a warning when the 'useWSL' attribute is used.
-    "debug.node.showUseWslIsDeprecatedWarning": true,
-    "extensions.ignoreRecommendations": true,
-    "editor.renderControlCharacters": false,
-    "window.zoomLevel": 2,
-  }
+  "editor.suggest.showWords": false,
+  "editor.codeActionsOnSave": {
+    "source.organizeImports": "always",
+    "source.fixAll.eslint": "always"
+  },
+  "eslint.validate": ["javascript", "typescript"],
+  "typescript.suggestionActions.enabled": true,
+  "typescript.inlayHints.parameterNames.enable": false,
+  "typescript.inlayHints.propertyDeclarationTypes.enabled": false,
+  "typescript.inlayHints.parameterTypes.enabled": true,
+  "terminal.explorerKind": "integrated",
+  "editor.renderWhitespace": "boundary",
+  "workbench.tree.indent": 16,
+  "workbench.editor.highlightModifiedTabs": true,
+  "editor.tabCompletion": "on",
+  // Configure glob patterns for excluding files and folders in searches.
+  // Inherits all glob patterns from the files.exclude setting.
+  "search.exclude": {
+    "**/node_modules": false,
+    "**/node_modules/**": true,
+    "**/jspm_packages": true,
+    "**/bower_components": true,
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/*.specs.ts": true,
+    "**/build": true,
+    "**/dist/**": true,
+    "**/.vscode/**": true
+  },
+  // Controls whether the search results will be collapsed or expanded.
+  //  - auto: Files with less than 10 results are expanded. Others are collapsed.
+  //  - alwaysCollapse
+  //  - alwaysExpand
+  "window.openFoldersInNewWindow": "off",
+  "window.restoreWindows": "all",
+  // Controls whether the parameter hints menu cycles or closes when reaching the end of the list.
+  "editor.parameterHints.cycle": false,
+  // Enables a pop-up that shows parameter documentation and type information as you type.
+  "editor.parameterHints.enabled": true,
+  // Inline view: Toggle inline view by clicking the More (...) button in the top right and selecting Switch to Inline View.
+  "search.collapseResults": "alwaysCollapse",
+  // hide scrollbar/minimap
+  "editor.minimap.enabled": false,
+  //  see variable values inline in the debugger
+  "debug.inlineValues": "on",
+  "editor.formatOnSave": true,
+  "editor.fontFamily": "Fira Code, Cascadia Code, Menlo, Monaco, 'Courier New', monospace",
+  "editor.cursorBlinking": "phase",
+  "editor.cursorStyle": "line",
+  "editor.mouseWheelZoom": false,
+  "editor.cursorWidth": 2,
+  "editor.fontWeight": "400",
+  "editor.guides.bracketPairs": "active",
+  "editor.guides.bracketPairsHorizontal": false,
+  "editor.guides.indentation": false,
+  "editor.guides.highlightActiveBracketPair": true,
+  "git.showPushSuccessNotification": true,
+  "merge-conflict.decorators.enabled": true,
+  "workbench.list.horizontalScrolling": false,
+  "editor.wordWrapColumn": 120,
+  "files.exclude": {
+    "**/*.specs": true
+  },
+  // The number of spaces a tab is equal to.
+  "editor.tabSize": 2,
+  "editor.fontSize": 16,
+  "gitlens.advanced.messages": {
+    "suppressCommitHasNoPreviousCommitWarning": false,
+    "suppressCommitNotFoundWarning": false,
+    "suppressFileNotUnderSourceControlWarning": false,
+    "suppressGitVersionWarning": false,
+    "suppressLineUncommittedWarning": false,
+    "suppressNoRepositoryWarning": false,
+    "suppressResultsExplorerNotice": false,
+    "suppressShowKeyBindingsNotice": true,
+    "suppressUpdateNotice": true,
+    "suppressWelcomeNotice": true
+  },
+  "scss.lint.boxModel": "warning",
+  "scss.lint.duplicateProperties": "warning",
+  "scss.lint.float": "warning",
+  "scss.lint.idSelector": "warning",
+  "scss.lint.important": "warning",
+  "scss.lint.importStatement": "warning",
+  "scss.lint.universalSelector": "warning",
+  "scss.lint.zeroUnits": "warning",
+  "javascript.format.enable": false,
+  "javascript.format.insertSpaceAfterCommaDelimiter": false,
+  "javascript.format.insertSpaceAfterKeywordsInControlFlowStatements": false,
+  "javascript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+  "javascript.format.insertSpaceBeforeAndAfterBinaryOperators": false,
+  "javascript.format.insertSpaceAfterSemicolonInForStatements": false,
+  "javascript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
+  "typescript.format.enable": false,
+  "typescript.format.insertSpaceBeforeAndAfterBinaryOperators": false,
+  "typescript.format.insertSpaceAfterCommaDelimiter": false,
+  "typescript.format.insertSpaceAfterKeywordsInControlFlowStatements": false,
+  "typescript.format.insertSpaceAfterOpeningAndBeforeClosingNonemptyBraces": false,
+  "typescript.format.insertSpaceAfterSemicolonInForStatements": false,
+  "typescript.format.insertSpaceAfterFunctionKeywordForAnonymousFunctions": false,
+  "workbench.tips.enabled": false,
+  "workbench.tree.renderIndentGuides": "always",
+  "workbench.view.alwaysShowHeaderActions": true,
+  "editor.formatOnPaste": true,
+  "editor.fontLigatures": false,
+  "editor.multiCursorModifier": "ctrlCmd",
+  "editor.snippetSuggestions": "top",
+  "editor.detectIndentation": false,
+  "explorer.confirmDragAndDrop": false,
+  "explorer.confirmDelete": false,
+  "files.autoSaveDelay": 10000,
+  "files.autoSave": "onFocusChange",
+  "workbench.sideBar.location": "left",
+  "breadcrumbs.enabled": true,
+  "search.useIgnoreFiles": true,
+  "colorize.colorized_colors": ["HEXA"],
+  "window.titleBarStyle": "custom",
+  "yaml.schemas": {
+    "file:///Users/antoniyz/.vscode/extensions/atlassian.atlascode-2.9.1/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"
+  },
+  "workbench.editor.scrollToSwitchTabs": true,
+  "diffEditor.ignoreTrimWhitespace": false,
+  "files.eol": "\n",
+  "typescript.preferences.quoteStyle": "single",
+  "atlascode.jira.lastCreateSiteAndProject": {
+    "siteId": "plan.tomandco.uk",
+    "projectKey": "ABB"
+  },
+  "workbench.colorTheme": "Default Dark+",
+  "remote.SSH.connectTimeout": 30,
+  "typescript.updateImportsOnFileMove.enabled": "always",
+  "[html]": {
+    "editor.defaultFormatter": "vscode.html-language-features"
+  },
+  "[typescript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[json]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "[javascript]": {
+    "editor.defaultFormatter": "esbenp.prettier-vscode"
+  },
+  "editor.minimap.maxColumn": 140,
+  "editor.suggestSelection": "first",
+  "vsintellicode.modify.editor.suggestSelection": "automaticallyOverrodeDefaultValue",
+  "angular.experimental-ivy": true,
+  "tabnine.experimentalAutoImports": true,
+  "workbench.editor.enablePreview": false,
+  "terminal.integrated.fontFamily": "monospace",
+  "files.saveConflictResolution": "overwriteFileOnDisk",
+  "workbench.colorCustomizations": {
+    "tab.activeBorder": "#39739d",
+    "tab.activeForeground": "#fff",
+    "tab.hoverBackground": "#2a4646",
+    "tab.activeBackground": "#282828",
+    "tab.border": "#000",
+    "tab.activeModifiedBorder": "#ff0000",
+    "activityBar.background": "#000",
+    "titleBar.activeBackground": "#191919cc",
+    "titleBar.activeForeground": "#ffffff",
+    "titleBar.inactiveForeground": "#000000CC",
+    "titleBar.inactiveBackground": "#ffc600CC",
+    "sideBar.background": "#000000",
+    "sideBar.foreground": "#d7d7d7",
+    "list.hoverBackground": "#39739d",
+    "list.hoverForeground": "#aaff00",
+    "list.activeSelectionBackground": "#39739d",
+    "editorLineNumber.activeForeground": "#00aaff",
+    "editor.background": "#1a1a1a",
+    "editor.colorDecorators": true
+  },
+  "editor.quickSuggestions": {
+    "other": true,
+    "comments": true,
+    "strings": false
+  },
+  // Controls the delay in milliseconds after which quick suggestions will show up.
+  "editor.quickSuggestionsDelay": 100,
+  // Enable/disable the ability to preview changes before renaming
+  "editor.rename.enablePreview": true,
+  // Render last line number when the file ends with a newline.
+  "editor.renderFinalNewline": "on",
+  // Controls how the editor should render the current line highlight.
+  //  - none
+  //  - gutter
+  //  - line
+  //  - all: Highlights both the gutter and the current line.
+  "editor.renderLineHighlight": "line",
+  // Controls whether the editor will scroll using an animation.
+  "editor.smoothScrolling": true,
+  // Controls whether an active snippet prevents quick suggestions.
+  "editor.suggest.snippetsPreventQuickSuggestions": true,
+  // Enable/disable autoclosing of HTML tags.
+  "html.autoClosingTags": true,
+  // A list of relative file paths pointing to JSON files following the custom data format.
+  // VS Code loads custom data on startup to enhance its HTML support for the custom HTML tags, attributes and attribute values you specify in the JSON files.
+  // The file paths are relative to workspace and only workspace folder settings are considered.
+  "html.customData": [],
+  // List of tags, comma separated, where the content shouldn't be reformatted. `null` defaults to the `pre` tag.
+  "html.format.contentUnformatted": "pre,code,textarea",
+  // Enable/disable default HTML formatter.
+  "html.format.enable": true,
+  // End with a newline.
+  "html.format.endWithNewline": false,
+  // List of tags, comma separated, that should have an extra newline before them. `null` defaults to `"head, body, /html"`.
+  "html.format.extraLiners": "head, body, /html",
+  // Format and indent ``.
+  "html.format.indentHandlebars": false,
+  // Indent `<head>` and `<body>` sections.
+  "html.format.indentInnerHtml": false,
+  // Maximum number of line breaks to be preserved in one chunk. Use `null` for unlimited.
+  "html.format.maxPreserveNewLines": null,
+  // Controls whether existing line breaks before elements should be preserved. Only works before elements, not inside tags or for text.
+  "html.format.preserveNewLines": true,
+  // Honor django, erb, handlebars and php templating language tags.
+  "html.format.templating": false,
+  // List of tags, comma separated, that shouldn't be reformatted.
+  "html.format.unformatted": "wbr",
+  // Keep text content together between this string.
+  "html.format.unformattedContentDelimiter": "",
+  // Wrap attributes.
+  //  - auto: Wrap attributes only when line length is exceeded.
+  //  - force: Wrap each attribute except first.
+  //  - force-aligned: Wrap each attribute except first and keep aligned.
+  //  - force-expand-multiline: Wrap each attribute.
+  //  - aligned-multiple: Wrap when line length is exceeded, align attributes vertically.
+  //  - preserve: Preserve wrapping of attributes.
+  //  - preserve-aligned: Preserve wrapping of attributes but align.
+  "html.format.wrapAttributes": "auto",
+  // Alignment size when using 'force aligned' and 'aligned multiple' in `html.format.wrapAttributes` or `null` to use the default indent size.
+  "html.format.wrapAttributesIndentSize": null,
+  // Maximum amount of characters per line (0 = disable).
+  "html.format.wrapLineLength": 120,
+  // Show tag and attribute documentation in hover.
+  "html.hover.documentation": true,
+  // Show references to MDN in hover.
+  "html.hover.references": true,
+  // Controls whether the built-in HTML language support suggests HTML5 tags, properties and values.
+  "html.suggest.html5": true,
+  // Traces the communication between VS Code and the HTML language server.
+  "html.trace.server": "off",
+  // Controls whether the built-in HTML language support validates embedded scripts.
+  "html.validate.scripts": true,
+  // Controls whether the built-in HTML language support validates embedded styles.
+  "html.validate.styles": true,
+  // CSS
+  // Insert semicolon at end of line when completing CSS properties.
+  "css.completion.completePropertyWithSemicolon": true,
+  // By default, VS Code triggers property value completion after selecting a CSS property. Use this setting to disable this behavior.
+  "css.completion.triggerPropertyValueCompletion": true,
+  // A list of relative file paths pointing to JSON files following the custom data format.
+  // VS Code loads custom data on startup to enhance its CSS support for the custom CSS properties, at directives, pseudo classes and pseudo elements you specify in the JSON files.
+  // The file paths are relative to workspace and only workspace folder settings are considered.
+  "css.customData": [],
+  // Show tag and attribute documentation in CSS hovers.
+  "css.hover.documentation": true,
+  // Show references to MDN in CSS hovers.
+  "css.hover.references": true,
+  // Invalid number of parameters.
+  "css.lint.argumentsInColorFunction": "error",
+  // Do not use `width` or `height` when using `padding` or `border`.
+  "css.lint.boxModel": "ignore",
+  // When using a vendor-specific prefix make sure to also include all other vendor-specific properties.
+  "css.lint.compatibleVendorPrefixes": "ignore",
+  // Do not use duplicate style definitions.
+  "css.lint.duplicateProperties": "ignore",
+  // Do not use empty rulesets.
+  "css.lint.emptyRules": "warning",
+  // Avoid using `float`. Floats lead to fragile CSS that is easy to break if one aspect of the layout changes.
+  "css.lint.float": "ignore",
+  // `@font-face` rule must define `src` and `font-family` properties.
+  "css.lint.fontFaceProperties": "warning",
+  // Hex colors must consist of three or six hex numbers.
+  "css.lint.hexColorLength": "error",
+  // Selectors should not contain IDs because these rules are too tightly coupled with the HTML.
+  "css.lint.idSelector": "ignore",
+  // IE hacks are only necessary when supporting IE7 and older.
+  "css.lint.ieHack": "ignore",
+  // Avoid using `!important`. It is an indication that the specificity of the entire CSS has gotten out of control and needs to be refactored.
+  "css.lint.important": "ignore",
+  // Import statements do not load in parallel.
+  "css.lint.importStatement": "ignore",
+  // Property is ignored due to the display. E.g. with `display: inline`, the `width`, `height`, `margin-top`, `margin-bottom`, and `float` properties have no effect.
+  "css.lint.propertyIgnoredDueToDisplay": "warning",
+  // The universal selector (`*`) is known to be slow.
+  "css.lint.universalSelector": "ignore",
+  // Unknown at-rule.
+  "css.lint.unknownAtRules": "warning",
+  // Unknown property.
+  "css.lint.unknownProperties": "warning",
+  // Unknown vendor specific property.
+  "css.lint.unknownVendorSpecificProperties": "ignore",
+  // A list of properties that are not validated against the `unknownProperties` rule.
+  "css.lint.validProperties": [],
+  // When using a vendor-specific prefix, also include the standard property.
+  "css.lint.vendorPrefix": "warning",
+  // No unit for zero needed.
+  "css.lint.zeroUnits": "ignore",
+  // Traces the communication between VS Code and the CSS language server.
+  "css.trace.server": "off",
+  // Enables or disables all validations.
+  "css.validate": true,
+  // Configures which processes to automatically attach and debug when `debug.node.autoAttach` is on. A Node process launched with the `--inspect` flag will always be attached to, regardless of this setting.
+  //  - always: Auto attach to every Node.js process launched in the terminal.
+  //  - smart: Auto attach when running scripts that aren't in a node_modules folder.
+  //  - onlyWithFlag: Only auto attach when the `--inspect` is given.
+  //  - disabled: Auto attach is disabled and not shown in status bar.
+  "debug.javascript.autoAttachFilter": "disabled",
+  // Configures glob patterns for determining when to attach in "smart" `debug.javascript.autoAttachFilter` mode. `$KNOWN_TOOLS$` is replaced with a list of names of common test and code runners.
+  "debug.javascript.autoAttachSmartPattern": [
+    "${workspaceFolder}/**",
+    "!**/node_modules/**",
+    "**/$KNOWN_TOOLS$/**"
+  ],
+  // Configures whether property getters will be expanded automatically. If this is false, the getter will appear as `get propertyName` and will only be evaluated when you click on it.
+  "debug.javascript.autoExpandGetters": false,
+  // When debugging a remote web app, configures whether to automatically tunnel the remote server to your local machine.
+  "debug.javascript.automaticallyTunnelRemoteServer": true,
+  // Whether to stop when conditional breakpoints throw an error. Note: your launch.json `type` must be prefixed with `pwa-` to use this, such as `pwa-node`.
+  "debug.javascript.breakOnConditionalError": false,
+  // Where a "Run" and "Debug" code lens should be shown in your npm scripts. It may be on "all", scripts, on "top" of the script section, or "never".
+  "debug.javascript.codelens.npmScripts": "top",
+  // Options used when debugging open links clicked from inside the JavaScript Debug Terminal. Can be set to "off" to disable this behavior, or "always" to enable debugging in all terminals.
+  "debug.javascript.debugByLinkOptions": "on",
+  // The default `runtimeExecutable` used for launch configurations, if unspecified. This can be used to config custom paths to Node.js or browser installations.
+  "debug.javascript.defaultRuntimeExecutable": {
+    "pwa-node": "node"
+  },
+  // Default options used when debugging a process through the `Debug: Attach to Node.js Process` command.
+  "debug.javascript.pickAndAttachOptions": {},
+  // Request options to use when loading resources, such as source maps, in the debugger. You may need to configure this if your sourcemaps require authentication or use a self-signed certificate, for instance. Options are used to create a request using the `got`library.
+  // A common case to disable certificate verification can be done by passing `{ "https": { "rejectUnauthorized": false } }`.
+  "debug.javascript.resourceRequestOptions": {},
+  // Whether to suggest pretty printing JavaScript code that looks minified when you step into it.
+  "debug.javascript.suggestPrettyPrinting": true,
+  // Default launch options for the JavaScript debug terminal and npm scripts.
+  "debug.javascript.terminalOptions": {},
+  // Configures whether sourcemapped file where the original file can't be read will automatically be unmapped. If this is false (default), a prompt is shown.
+  "debug.javascript.unmapMissingSources": false,
+  // Use the new in-preview JavaScript debugger for Node.js and Chrome.
+  "debug.javascript.usePreview": false,
+  // Controls whether to show a warning when the 'useWSL' attribute is used.
+  "debug.node.showUseWslIsDeprecatedWarning": true,
+  "extensions.ignoreRecommendations": true,
+  "editor.renderControlCharacters": false,
+  "window.zoomLevel": 2
+}
