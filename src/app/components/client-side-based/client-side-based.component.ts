@@ -1,143 +1,155 @@
 import {CommonModule} from '@angular/common';
-import {Component,inject,OnInit} from '@angular/core';
-import {FormBuilder,FormControl,ReactiveFormsModule} from '@angular/forms';
-import {MatPaginatorModule,PageEvent} from '@angular/material/paginator';
-import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
-import {Sort} from '@angular/material/sort';
-import {MatTableDataSource,MatTableModule} from '@angular/material/table';
-import {debounceTime,distinctUntilChanged,startWith,switchMap} from 'rxjs/operators';
 
-import {MatCard} from '@angular/material/card';
-import {MatFormFieldModule} from '@angular/material/form-field';
-import {MatInputModule} from '@angular/material/input';
-import {ApiRequest,ClientSideBasedPaginationService,ResponseItem} from '../../services/client.side.based.pagination.service';
+import {Component,DestroyRef,inject,OnInit} from '@angular/core';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {FormBuilder,FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
+import {combineLatest,Observable,of} from 'rxjs';
+import {debounceTime,distinctUntilChanged,map,startWith} from 'rxjs/operators';
+
+import {SearchService} from '../../services/client.side.based.pagination.service';
+import {FilterInputComponent} from "./Filter-input.component";
+import {ListComponent} from "./List.component";
+import {PaginationComponent} from "./Pagination.component";
+import {SortDropdownComponent} from "./Sort-dropdown.component";
 
 @Component({
   selector: 'app-client-side-based',
   standalone: true,
   template: `
-    <div *ngIf="isLoading" class="loading-indicator">
-      <mat-spinner></mat-spinner>
+    <h3>{{ title }}</h3>
+    <div class="container">
+      <form [formGroup]="form">
+        
+        <!-- Filter Input -->
+        <app-filter-input [filterControl]="filter"></app-filter-input>
+
+        <!-- Sort Dropdown -->
+        <app-sort-dropdown (sortChanged)="sort($event)"></app-sort-dropdown>
+
+        <!-- List -->
+       <app-list [countries]="(filteredCountry$ | async) ?? []"></app-list>
+       <p>Total found: {{ filteredCount }}</p>
+
+        <!-- Pagination -->
+        <app-pagination
+          [currentPage]="currentPage"
+          [totalPages]="totalPages"
+          (pageChange)="onPageChange($event)">
+        </app-pagination>
+
+      </form>
     </div>
-
-    <mat-card>
-      <mat-form-field class="search">
-        <mat-label>Search (using client-side search)</mat-label>
-        <input matInput [formControl]="searchKeywordFilter" placeholder="Title to Search">
-      </mat-form-field>
-
-      <div class="table-wrapper">
-        <table mat-table [dataSource]="dataSource" matSort matSortDirection="desc" class="mat-elevation-z8">
-        
-          <ng-container matColumnDef="id">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>ID</th>
-            <td mat-cell *matCellDef="let row">{{ row.number }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="title">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Title</th>
-            <td mat-cell *matCellDef="let row">{{ row.title }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="state">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>State</th>
-            <td mat-cell *matCellDef="let row">{{ row.state }}</td>
-          </ng-container>
-
-          <ng-container matColumnDef="created">
-            <th mat-header-cell *matHeaderCellDef mat-sort-header>Created</th>
-            <td mat-cell *matCellDef="let row">{{ row.created_at | date }}</td>
-          </ng-container>
-
-          <tr mat-header-row *matHeaderRowDef="columnsToDisplay"></tr>
-          <tr mat-row *matRowDef="let row; columns: columnsToDisplay"></tr>
-        </table>
-
-        <mat-paginator [length]="totalCount" [pageSizeOptions]="pageSizes"
-          aria-label="Select page" showFirstLastButtons (page)="onPageChange($event)">
-        </mat-paginator>
-        
-      </div>
-    </mat-card>
   `,
-  imports: [
-    CommonModule, ReactiveFormsModule, 
-    MatProgressSpinnerModule,
-    MatInputModule,
-    MatPaginatorModule,
-    MatCard,
-    MatFormFieldModule,
-    MatTableModule
-  ]
+  imports: [CommonModule, ReactiveFormsModule, PaginationComponent, ListComponent, SortDropdownComponent, FilterInputComponent]
 })
 export class ClientSideBasedComponent implements OnInit {
-  searchKeywordFilter = new FormControl('');
-  dataSource = new MatTableDataSource<ResponseItem>();
-  isLoading = false;
-  totalCount = 0;
+  title = 'Search, Sort, and Pagination Components using Array/List Data Structure';
+  data$: Observable<any[]> = of([]);
+  filteredCountry$!: Observable<any[]>;
+  form: FormGroup;
+  filter: FormControl;
+  sortDirection: string = 'asc';
   currentPage = 0;
+  totalPages = 0;
   pageSize = 3; 
   sortOrder: 'asc' | 'desc' = 'asc';
-  sortField = 'created_at';
-  pageSizes = [3, 5, 10];
-  columnsToDisplay = ['id', 'title', 'state', 'created'];
+  filteredCount = 0;
 
-  private paginationService = inject(ClientSideBasedPaginationService);
-  private fb = inject(FormBuilder);
+  private searchService = inject(SearchService)
+  private fb = inject(FormBuilder)
+  private destroyRef = inject(DestroyRef)
+
+  constructor() {
+    this.form = this.fb.group({
+      filter: ['']
+    });
+    this.filter = this.form.get('filter') as FormControl;
+  }
 
   ngOnInit() {
-    this.searchKeywordFilter.valueChanges.pipe(
+    this.data$ = this.searchService.getData().pipe(
+      startWith([]) // Emit an empty array before the actual data arrives
+    );
+
+    const filter$ = this.filter.valueChanges.pipe(
       startWith(''),
-      debounceTime(300),
       distinctUntilChanged(),
-      switchMap(filterValue => {
-        this.isLoading = true;
-        const payload: ApiRequest = {
-          search_filter: filterValue || '',
-          sort_field: this.sortField,
-          sort_order: this.sortOrder,
-          page: this.currentPage + 1,
-          limit_per_page: this.pageSize
-        };
-        return this.paginationService.fetchTableData(payload);
+      debounceTime(300)
+    );
+
+    this.filteredCountry$ = combineLatest([this.data$, filter$]).pipe(
+      map(([values, filterString]) => {
+        this.currentPage = 0; // Reset the current page whenever filtering changes
+        const filteredData = this.applyFilterSortPagination(values, filterString);
+        this.totalPages = Math.ceil(filteredData.length / this.pageSize); // Update total pages based on filtered data
+        // Slice the filtered data for pagination
+        const start = this.currentPage * this.pageSize;
+
+        return filteredData.slice(start, start + this.pageSize);
+      }),
+      takeUntilDestroyed(this.destroyRef) 
+    );
+    
+  }
+
+  sort(sortOrder: 'asc' | 'desc'): void {
+    this.sortOrder = sortOrder;
+
+    this.sortDirection = sortOrder;
+    this.filteredCountry$ = this.data$.pipe(
+      startWith([]), // Ensure that an empty array is emitted immediately
+      map(values => this.applyFilterSortPagination(values, this.filter.value)),
+      takeUntilDestroyed(this.destroyRef) 
+    );
+  }
+
+  nextPage() {
+    this.currentPage++;
+    this.updateFilteredData();
+  }
+
+  previousPage() {
+    if (this.currentPage > 0) {
+      this.currentPage--;
+      this.updateFilteredData();
+    }
+  }
+
+  private applyFilterSortPagination(countries: any[], filterString: string) {
+    // Filtering
+    let filtered = countries.filter(country =>
+      country.name.toLowerCase().includes(filterString.toLowerCase())
+    );
+
+    // Update the count of filtered data
+    this.filteredCount = filtered.length;
+
+    // sorting
+    filtered = filtered.sort((a, b) =>
+      this.sortDirection === 'asc'
+        ? a.name.localeCompare(b.name)
+        : b.name.localeCompare(a.name)
+    );
+
+    return filtered;
+  }
+
+  private updateFilteredData() {
+    this.filteredCountry$ = this.data$.pipe(
+      startWith([]),
+      map(values => {
+        const filteredData = this.applyFilterSortPagination(values, this.filter.value);
+        this.totalPages = Math.ceil(filteredData.length / this.pageSize); // Recalculate total pages
+        const start = this.currentPage * this.pageSize;
+
+        return filteredData.slice(start, start + this.pageSize);
       })
-    ).subscribe(response => {
-      this.dataSource.data = response.items;
-      this.totalCount = response.total_count;
-      this.isLoading = false;
-    }, () => {
-      this.isLoading = false;
-    });
+    );
   }
 
-  sortData(sort: Sort) {
-    this.sortField = sort.active;
-    this.sortOrder = sort.direction || 'asc';
-    this.currentPage = 0; // Reset to the first page on sort change
-    this.fetchData();
+  onPageChange(newPage: number) {
+    this.currentPage = newPage;
+    this.updateFilteredData();
   }
-
-  onPageChange(event: PageEvent) {
-    this.pageSize = event.pageSize;
-    this.currentPage = event.pageIndex;
-    this.fetchData();
-  }
-
-  private fetchData() {
-    this.isLoading = true;
-    const payload: ApiRequest = {
-      search_filter: this.searchKeywordFilter.value || '',
-      sort_field: this.sortField,
-      sort_order: this.sortOrder,
-      page: this.currentPage + 1,
-      limit_per_page: this.pageSize
-    };
-    this.paginationService.fetchTableData(payload).subscribe(response => {
-      this.dataSource.data = response.items;
-      this.totalCount = response.total_count;
-      this.isLoading = false;
-    }, () => {
-      this.isLoading = false;
-    });
-  }
+  
 }
