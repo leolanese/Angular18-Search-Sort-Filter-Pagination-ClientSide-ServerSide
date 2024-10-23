@@ -1,7 +1,6 @@
-import { CommonModule } from '@angular/common';
-import { Component, Input, Output, EventEmitter, inject} from '@angular/core';
-import { Observable, of } from 'rxjs';
-import { User } from '../../models/user.model';
+import {CommonModule} from '@angular/common';
+import {Component,EventEmitter,Input,Output} from '@angular/core';
+import {User} from '../../models/user.model';
 
 @Component({
   selector: 'app-dummy',

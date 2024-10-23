@@ -6,8 +6,8 @@ import {
   OnInit,
   ViewChild,
 } from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { merge, Observable, of as observableOf } from 'rxjs';
+import {FormControl,FormsModule,ReactiveFormsModule} from '@angular/forms';
+import {merge,Observable,of as observableOf} from 'rxjs';
 import {
   catchError,
   debounceTime,
@@ -15,26 +15,26 @@ import {
   startWith,
   switchMap,
 } from 'rxjs/operators';
-import { ServerSideBasedPaginationService } from '../../services/server.side.based.pagination.service';
+import {ServerSideBasedPaginationService} from '../../services/server.side.based.pagination.service';
 
-import { CommonModule } from '@angular/common';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCard } from '@angular/material/card';
+import {CommonModule} from '@angular/common';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCard} from '@angular/material/card';
 import {
   MatFormField,
   MatFormFieldModule,
   MatLabel,
 } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatPaginator, MatPaginatorModule } from '@angular/material/paginator';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBar, MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatSort, MatSortModule } from '@angular/material/sort';
-import { MatTableModule } from '@angular/material/table';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { ApiResponse, ResponseItem } from '../../models/api.module';
+import {MatInputModule} from '@angular/material/input';
+import {MatPaginator,MatPaginatorModule} from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSelectModule} from '@angular/material/select';
+import {MatSnackBar,MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSort,MatSortModule} from '@angular/material/sort';
+import {MatTableModule} from '@angular/material/table';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {ApiResponse,ResponseItem} from '../../models/api.module';
 
 @Component({
   selector: 'app-server-side-based',

@@ -1,21 +1,21 @@
-import { AfterViewInit, Component, OnInit, ViewChild, inject} from '@angular/core';
-import { FormControl, FormsModule, ReactiveFormsModule } from '@angular/forms';
-import { MatPaginator, MatPaginatorModule, PageEvent } from '@angular/material/paginator';
-import { MatSort, MatSortModule, Sort } from '@angular/material/sort';
-import { ClientSideBasedPaginationService } from '../../services/client.side.based.pagination.service';
-import { ResponseItem, ApiResponse } from '../../models/api.module';
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { CommonModule } from '@angular/common';
-import { MatButtonModule } from '@angular/material/button';
-import { MatCard } from '@angular/material/card';
-import { MatFormField, MatLabel, MatFormFieldModule } from '@angular/material/form-field';
-import { MatInputModule } from '@angular/material/input';
-import { MatSelectModule } from '@angular/material/select';
-import { MatSnackBarModule } from '@angular/material/snack-bar';
-import { MatTableModule } from '@angular/material/table';
-import { MatTooltipModule } from '@angular/material/tooltip';
-import { BehaviorSubject, Observable, startWith, combineLatest, map, debounceTime, distinctUntilChanged, merge } from 'rxjs';
-import { DataSource } from '@angular/cdk/collections';
+import {DataSource} from '@angular/cdk/collections';
+import {CommonModule} from '@angular/common';
+import {AfterViewInit,Component,OnInit,ViewChild,inject} from '@angular/core';
+import {FormControl,FormsModule,ReactiveFormsModule} from '@angular/forms';
+import {MatButtonModule} from '@angular/material/button';
+import {MatCard} from '@angular/material/card';
+import {MatFormField,MatFormFieldModule,MatLabel} from '@angular/material/form-field';
+import {MatInputModule} from '@angular/material/input';
+import {MatPaginator,MatPaginatorModule} from '@angular/material/paginator';
+import {MatProgressSpinnerModule} from '@angular/material/progress-spinner';
+import {MatSelectModule} from '@angular/material/select';
+import {MatSnackBarModule} from '@angular/material/snack-bar';
+import {MatSort,MatSortModule} from '@angular/material/sort';
+import {MatTableModule} from '@angular/material/table';
+import {MatTooltipModule} from '@angular/material/tooltip';
+import {BehaviorSubject,Observable,debounceTime,distinctUntilChanged,map,merge,startWith} from 'rxjs';
+import {ResponseItem} from '../../models/api.module';
+import {ClientSideBasedPaginationService} from '../../services/client.side.based.pagination.service';
 
 class CustomDataSource extends DataSource<ResponseItem> {
   private dataSubject = new BehaviorSubject<ResponseItem[]>([]);
@@ -141,7 +141,6 @@ export class ClientSideBasedComponent implements OnInit, AfterViewInit {
       });
 
     // this.paginator.pageSize = 5;
-
     this.dataSource.connect().pipe(
       map(data => {
         const startIndex = this.paginator.pageIndex * this.paginator.pageSize;

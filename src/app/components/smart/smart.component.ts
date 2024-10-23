@@ -1,12 +1,13 @@
-import { CommonModule } from '@angular/common';
+import {CommonModule} from '@angular/common';
 
-import { APIService } from './../../services/api.service';
-import { Component, DestroyRef, inject, OnInit } from '@angular/core';
+import {Component,DestroyRef,inject,OnInit} from '@angular/core';
+import {APIService} from './../../services/api.service';
 
-import { Observable, Subject, catchError, debounceTime, exhaustMap, of, switchMap } from 'rxjs';
-import { DummyComponent } from './../dummy/dummy.component';
-import { takeUntilDestroyed } from '@angular/core/rxjs-interop';
-import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
+import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {NgxSkeletonLoaderModule} from 'ngx-skeleton-loader';
+import {catchError,debounceTime,distinctUntilChanged,Observable,of,Subject,switchMap} from 'rxjs';
+import {ToastService} from '../../shared/toastModal.component';
+import {DummyComponent} from './../dummy/dummy.component';
 
 @Component({
     selector: 'app-smart',
@@ -37,28 +38,29 @@ import { NgxSkeletonLoaderModule } from 'ngx-skeleton-loader';
 })
 export class SmartComponent implements OnInit {
   users$!: Observable<any[]> // Initialise to an empty observable
-
+  
   // Subject to trigger data fetch
   private fetchDataSubject$ = new Subject<void>();
   
-  private destroyRef = inject(DestroyRef);
-  private apiService = inject(APIService)
+  #destroyRef = inject(DestroyRef);
+  #apiService = inject(APIService)
+  #toastService = inject(ToastService);
 
   ngOnInit(): void {
     this.fetchData();
   }
 
   fetchData() {
+    // this.users$ = this.apiService.getTerm('users').pipe(
+    //   exhaustMap(() => this.apiService.getTerm('users').pipe(
+    //     takeUntilDestroyed(this.destroyRef),
+    //     catchError(error => {
+    //       this.#toastService.show('Error loading data!');
+    //       return of([]);
+    //     })
+    //   ))
 
-    this.users$ = this.apiService.getTerm('users').pipe(
-      exhaustMap(() => this.apiService.getTerm('users').pipe(
-        takeUntilDestroyed(this.destroyRef),
-        catchError(error => {
-          return of([]);
-        })
-      ))
-
-    );
+    // );
 
     // this.users$ = this.apiService$.pipe(  // Assume `searchTerm$` emits user input
     //   debounceTime(300), // Wait for user to stop typing for 300ms
@@ -72,14 +74,14 @@ export class SmartComponent implements OnInit {
     //   ))
     // );
 
-    this.users$ = this.apiService.getTerm('users').pipe(
+    this.users$ = this.#apiService.getTerm('users').pipe(
       debounceTime(300), // Wait for user to stop typing for 300ms
       distinctUntilChanged(), // Only trigger if the value has changed
       //  if you expect subsequent triggers
-      switchMap(() => this.apiService.getTerm('users').pipe(
-        takeUntilDestroyed(this.destroyRef),
+      switchMap(() => this.#apiService.getTerm('users').pipe(
+        takeUntilDestroyed(this.#destroyRef),
         catchError(error => {
-          console.error('Error fetching users:', error);
+          this.#toastService.show('Error loading desserts!');
           return of([]); // Return empty array in case of error
         })
       ))
@@ -89,6 +91,3 @@ export class SmartComponent implements OnInit {
 
 }
 
-function distinctUntilChanged(): import("rxjs").OperatorFunction<any[], unknown> {
-  throw new Error('Function not implemented.');
-}

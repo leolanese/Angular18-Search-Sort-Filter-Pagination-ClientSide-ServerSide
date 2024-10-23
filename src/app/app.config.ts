@@ -1,11 +1,11 @@
-import { ApplicationConfig, provideZoneChangeDetection } from '@angular/core';
-import { PreloadAllModules, provideRouter, withPreloading,  } from '@angular/router';
-import { provideHttpClient, withInterceptors, withXsrfConfiguration } from '@angular/common/http';
+import {provideHttpClient,withInterceptors,withXsrfConfiguration} from '@angular/common/http';
+import {ApplicationConfig,provideZoneChangeDetection} from '@angular/core';
+import {PreloadAllModules,provideRouter,withPreloading,} from '@angular/router';
 
-import { routes } from './app.routes';
-import { httpRequestInterceptor } from './services/http.request.interceptor';
-import { httpCacheInterceptor } from './services/http.cache.interceptor';
-import { provideAnimationsAsync } from '@angular/platform-browser/animations/async';
+import {provideAnimationsAsync} from '@angular/platform-browser/animations/async';
+import {routes} from './app.routes';
+import {httpCacheInterceptor} from './services/http.cache.interceptor';
+import {httpRequestInterceptor} from './services/http.request.interceptor';
 
 export const appConfig: ApplicationConfig = {
   providers: [

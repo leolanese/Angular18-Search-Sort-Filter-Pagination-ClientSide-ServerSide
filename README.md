@@ -1,9 +1,8 @@
-# Company Test
+# Search, Sort, Filter, Pagination using Client and Server side
 
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.3.
 
-
-```jsw
+```js
 ng new company-test --routing false --style scss --skip-git --skip-tests
 cd company-test
 
