@@ -1,12 +1,12 @@
 import {CommonModule} from '@angular/common';
 
 import {Component,DestroyRef,inject,OnInit} from '@angular/core';
+import {ToastService} from '../../shared/toastModal.component';
 import {APIService} from './../../services/api.service';
 
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {NgxSkeletonLoaderModule} from 'ngx-skeleton-loader';
 import {catchError,debounceTime,distinctUntilChanged,Observable,of,Subject,switchMap} from 'rxjs';
-import {ToastService} from '../../shared/toastModal.component';
 import {DummyComponent} from './../dummy/dummy.component';
 
 @Component({
@@ -81,7 +81,7 @@ export class SmartComponent implements OnInit {
       switchMap(() => this.#apiService.getTerm('users').pipe(
         takeUntilDestroyed(this.#destroyRef),
         catchError(error => {
-          this.#toastService.show('Error loading desserts!');
+          this.#toastService.show('Error loading Data!');
           return of([]); // Return empty array in case of error
         })
       ))

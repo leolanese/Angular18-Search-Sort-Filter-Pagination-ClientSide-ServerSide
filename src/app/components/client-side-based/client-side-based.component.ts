@@ -4,9 +4,10 @@ import {Component,DestroyRef,inject,OnInit} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder,FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
 import {combineLatest,Observable,of} from 'rxjs';
-import {debounceTime,distinctUntilChanged,map,startWith} from 'rxjs/operators';
+import {catchError,debounceTime,distinctUntilChanged,map,startWith} from 'rxjs/operators';
 
 import {SearchService} from '../../services/client.side.based.pagination.service';
+import {ToastService} from '../../shared/toastModal.component';
 import {FilterInputComponent} from "./Filter-input.component";
 import {ListComponent} from "./List.component";
 import {PaginationComponent} from "./Pagination.component";
@@ -54,10 +55,12 @@ export class ClientSideBasedComponent implements OnInit {
   pageSize = 3; 
   sortOrder: 'asc' | 'desc' = 'asc';
   filteredCount = 0;
+  
 
   private searchService = inject(SearchService)
   private fb = inject(FormBuilder)
   private destroyRef = inject(DestroyRef)
+  private toastService = inject(ToastService);
 
   constructor() {
     this.form = this.fb.group({
@@ -68,7 +71,12 @@ export class ClientSideBasedComponent implements OnInit {
 
   ngOnInit() {
     this.data$ = this.searchService.getData().pipe(
-      startWith([]) // Emit an empty array before the actual data arrives
+      startWith([]), // Emit an empty array before the actual data arrives
+      catchError((error) => {
+        console.error('Error fetching data:', error);
+        this.toastService.show('Error loading Data');
+        return of([]); // Return an empty array in case of an error
+      })
     );
 
     const filter$ = this.filter.valueChanges.pipe(
