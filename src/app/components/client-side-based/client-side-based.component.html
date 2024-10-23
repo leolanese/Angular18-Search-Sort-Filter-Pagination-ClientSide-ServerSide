@@ -42,6 +42,9 @@
     </table>
 
     <mat-paginator [length]="dataSource['dataSubject'].value.length" [pageSizeOptions]="pageSizes"
-      aria-label="Select page" showFirstLastButtons (page)="onPageChange($event)"></mat-paginator>
+      aria-label="Select page" showFirstLastButtons (page)="onPageChange($event)">
+    </mat-paginator>
+
+
   </div>
 </mat-card>
