@@ -89,7 +89,14 @@ export class ClientSideBasedComponent implements OnInit {
       }),
       takeUntilDestroyed(this.destroyRef) 
     );
-    
+  
+    // Subscribe to filter changes to update the filtered data immediately
+    filter$.pipe(
+      takeUntilDestroyed(this.destroyRef)
+    ).subscribe(() => {
+      this.updateFilteredData(); // Call to update the filtered data immediately
+    });
+
   }
 
   sort(sortOrder: 'asc' | 'desc'): void {
@@ -148,6 +155,7 @@ export class ClientSideBasedComponent implements OnInit {
   }
 
   onPageChange(newPage: number) {
+    console.log(newPage)
     this.currentPage = newPage;
     this.updateFilteredData();
   }
