@@ -21,7 +21,7 @@ import {ToastModalComponent} from './shared/toastModal.component';
     <!-- <app-smart /> -->
 
     <!-- Server-side-based filter, sort, pagination -->
-    <app-server-side-based></app-server-side-based>
+    <!-- <app-server-side-based></app-server-side-based> -->
 
     <!-- Client-side-based filter, sort, pagination -->
     <app-client-side-based></app-client-side-based>
