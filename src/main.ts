@@ -4,4 +4,7 @@ import {appConfig} from './app/app.config';
 
 bootstrapApplication(AppComponent, appConfig)
   .then(() => {})
-  .catch((err: string) => console.error(err));
+  .catch((err: Error) => {
+    console.log(err.message);
+    console.log((err.cause as Error)?.message);
+  });
