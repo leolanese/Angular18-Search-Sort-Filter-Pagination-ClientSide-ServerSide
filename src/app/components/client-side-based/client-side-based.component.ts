@@ -42,7 +42,8 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
       </form>
     </div>
   `,
-  imports: [CommonModule, ReactiveFormsModule, PaginationComponent, ListComponent, SortDropdownComponent, FilterInputComponent]
+  imports: [CommonModule, ReactiveFormsModule, PaginationComponent, ListComponent, SortDropdownComponent, FilterInputComponent],
+  providers: [SearchService, HttpErrorService, ToastService] // declare dependencies isolated mod not globally provided
 })
 export class ClientSideBasedComponent implements OnInit {
   title = 'Search, Sort, and Pagination Components using Array/List Data Structure';

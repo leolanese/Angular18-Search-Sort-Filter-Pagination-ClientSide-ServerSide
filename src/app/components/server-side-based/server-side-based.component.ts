@@ -99,7 +99,7 @@ export class ServerSideBasedComponent implements OnInit, AfterViewInit {
         switchMap(() => this.fetchData()),
         takeUntilDestroyed(this.destroyRef),
       )
-      .subscribe((count) => console.log(count));
+      .subscribe((count: ApiResponse | null) => console.log(count));
   }
 
   private fetchData(): Observable<ApiResponse | null> {
@@ -119,6 +119,7 @@ export class ServerSideBasedComponent implements OnInit, AfterViewInit {
           this.isLoading = false;
           this.totalCount = response.total_count;
           this.data = response.items;
+
           return response;
         }),
         shareReplay(1),
@@ -126,7 +127,8 @@ export class ServerSideBasedComponent implements OnInit, AfterViewInit {
           this.isLoading = false;
           this.limitReached = true;
           this.showErrorSnackBar();
-          this.errorService.formatError(err)
+          this.errorService.formatError(err);
+
           return observableOf(null);
         }),
       );
