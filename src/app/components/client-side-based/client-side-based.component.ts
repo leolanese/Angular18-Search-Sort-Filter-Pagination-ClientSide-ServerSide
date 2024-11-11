@@ -4,7 +4,7 @@ import {Component,DestroyRef,inject,OnInit} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder,FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
 import {combineLatest,Observable,of} from 'rxjs';
-import {catchError,debounceTime,distinctUntilChanged,map,startWith} from 'rxjs/operators';
+import {catchError,debounceTime,distinctUntilChanged,map,shareReplay,startWith} from 'rxjs/operators';
 
 import {SearchService} from '../../services/client.side.based.pagination.service';
 import {HttpErrorService} from '../../shared/http-error.service';
@@ -74,6 +74,7 @@ export class ClientSideBasedComponent implements OnInit {
   ngOnInit() {
     this.data$ = this.searchService.getData().pipe(
       startWith([]), // Emit an empty array before the actual data arrives
+      shareReplay(1), // Cache the data to avoid re-fetching it on every subscription
       catchError((err) => {
         console.error('Error fetching data:', err);
         this.errorService.formatError(err)

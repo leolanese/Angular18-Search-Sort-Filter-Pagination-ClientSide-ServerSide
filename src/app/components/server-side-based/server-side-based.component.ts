@@ -12,6 +12,7 @@ import {
   catchError,
   debounceTime,
   map,
+  shareReplay,
   startWith,
   switchMap,
 } from 'rxjs/operators';
@@ -120,6 +121,7 @@ export class ServerSideBasedComponent implements OnInit, AfterViewInit {
           this.data = response.items;
           return response;
         }),
+        shareReplay(1),
         catchError((err) => {
           this.isLoading = false;
           this.limitReached = true;
