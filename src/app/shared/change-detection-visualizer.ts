@@ -1,6 +1,6 @@
 import {CommonModule} from '@angular/common';
 import {AfterViewInit,Component,ElementRef,NgZone,OnInit} from '@angular/core';
-import {injectCdBlink} from '../../shared/inject-cd-blink';
+import {injectCdBlink} from './inject-cd-blink';
 
 @Component({
   selector: 'app-change-detection-visualizer',

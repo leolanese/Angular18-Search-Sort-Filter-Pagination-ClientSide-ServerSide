@@ -1,7 +1,7 @@
 import {Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {ChangeDetectionVisualizerComponent} from './components/change-detection-visualizer/change-detection-visualizer';
 import {ClientSideBasedComponent} from "./components/client-side-based/client-side-based.component";
+import {ChangeDetectionVisualizerComponent} from './shared/change-detection-visualizer';
 import {ToastModalComponent} from './shared/toastModal.component';
 
 @Component({
@@ -27,7 +27,7 @@ import {ToastModalComponent} from './shared/toastModal.component';
     <!-- Client-side-based filter, sort, pagination -->
     <app-client-side-based></app-client-side-based>
 
-    <app-change-detection-visualizer />
+    <!-- <app-change-detection-visualizer /> -->
   `,
   styleUrl: './app.component.scss'
 })

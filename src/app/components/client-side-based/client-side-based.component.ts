@@ -7,6 +7,7 @@ import {combineLatest,Observable,of} from 'rxjs';
 import {catchError,debounceTime,distinctUntilChanged,map,startWith} from 'rxjs/operators';
 
 import {SearchService} from '../../services/client.side.based.pagination.service';
+import {HttpErrorService} from '../../shared/http-error.service';
 import {ToastService} from '../../shared/toastModal.component';
 import {FilterInputComponent} from "./Filter-input.component";
 import {ListComponent} from "./List.component";
@@ -61,6 +62,7 @@ export class ClientSideBasedComponent implements OnInit {
   private fb = inject(FormBuilder)
   private destroyRef = inject(DestroyRef)
   private toastService = inject(ToastService);
+  private errorService = inject(HttpErrorService);
 
   constructor() {
     this.form = this.fb.group({
@@ -72,8 +74,9 @@ export class ClientSideBasedComponent implements OnInit {
   ngOnInit() {
     this.data$ = this.searchService.getData().pipe(
       startWith([]), // Emit an empty array before the actual data arrives
-      catchError((error) => {
-        console.error('Error fetching data:', error);
+      catchError((err) => {
+        console.error('Error fetching data:', err);
+        this.errorService.formatError(err)
         this.toastService.show('Error loading Data');
         return of([]); // Return an empty array in case of an error
       })

@@ -35,6 +35,7 @@ import {MatSort,MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
 import {ApiResponse,ResponseItem} from '../../models/api.module';
+import {HttpErrorService} from '../../shared/http-error.service';
 
 @Component({
   selector: 'app-server-side-based',
@@ -64,6 +65,7 @@ export class ServerSideBasedComponent implements OnInit, AfterViewInit {
   public tableDataService = inject(ServerSideBasedPaginationService);
   private snackBar = inject(MatSnackBar);
   private destroyRef = inject(DestroyRef);
+  private errorService = inject(HttpErrorService);
 
   columnsToDisplay: string[] = ['title', 'id', 'created', 'state'];
   data: ResponseItem[] = [];
@@ -118,10 +120,11 @@ export class ServerSideBasedComponent implements OnInit, AfterViewInit {
           this.data = response.items;
           return response;
         }),
-        catchError(() => {
+        catchError((err) => {
           this.isLoading = false;
           this.limitReached = true;
           this.showErrorSnackBar();
+          this.errorService.formatError(err)
           return observableOf(null);
         }),
       );
