@@ -84,6 +84,7 @@ export class ClientSideFilterFormControlComponent implements OnInit {
       })
     );
 
+    // Instead of filter.valueChanges from the form control, we could rely on searchSig to track the changes from input field
     const filter$ = this.filter.valueChanges.pipe(
       tap(value => console.log('Typed Value in Filter Input:', value)) ,
       distinctUntilChanged(),

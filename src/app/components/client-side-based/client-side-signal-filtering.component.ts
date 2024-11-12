@@ -2,9 +2,9 @@ import {CommonModule} from '@angular/common';
 
 import {Component,DestroyRef,inject,OnInit,signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
-import {FormBuilder,FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
-import {combineLatest,Observable,of} from 'rxjs';
-import {catchError,debounceTime,distinctUntilChanged,map,shareReplay,startWith,tap} from 'rxjs/operators';
+import {FormBuilder,FormGroup,ReactiveFormsModule} from '@angular/forms';
+import {combineLatest,from,Observable,of} from 'rxjs';
+import {catchError,map,shareReplay,startWith} from 'rxjs/operators';
 
 import {SearchService} from '../../services/client.side.based.pagination.service';
 import {HttpErrorService} from '../../shared/http-error.service';
@@ -22,10 +22,7 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
     <div class="container">
       <form [formGroup]="form">
         
-        <!-- Filter Input -->
-        <app-filter-input [filterControl]="filter"></app-filter-input>
-
-        <!-- Input Field -->
+        <!-- Filtsr Input using signal -->
         <input type="text" (keyup)="search($event)" />
         <!-- <p>Typed Value: {{ searchSig() }}</p>  -->
 
@@ -54,14 +51,16 @@ export class ClientSideSignalComponent implements OnInit {
   data$: Observable<any[]> = of([]);
   filteredResult$!: Observable<any[]>;
   form: FormGroup;
-  filter: FormControl;
   sortDirection: string = 'asc';
   currentPage = 0;
   totalPages = 0;
   pageSize = 3; 
   sortOrder: 'asc' | 'desc' = 'asc';
   filteredCount = 0;
- 
+  // Signal PATH
+  // create a signal which stores our search value
+  searchSignal = signal<string>('');
+   
   private searchService = inject(SearchService)
   private fb = inject(FormBuilder)
   private destroyRef = inject(DestroyRef)
@@ -72,7 +71,6 @@ export class ClientSideSignalComponent implements OnInit {
     this.form = this.fb.group({
       filter: ['']
     });
-    this.filter = this.form.get('filter') as FormControl;
   }
 
   ngOnInit() {
@@ -88,54 +86,44 @@ export class ClientSideSignalComponent implements OnInit {
       })
     );
 
-    const filter$ = this.filter.valueChanges.pipe(
-      tap(value => console.log('Typed Value in Filter Input:', value)) ,
-      distinctUntilChanged(),
-      debounceTime(300)
-    );
+    // Create an observable from the search signal
+    const searchObservable$ = from(this.searchSignal());
 
-    this.filteredResult$ = combineLatest([this.data$, filter$]).pipe(
-      map(([values, filterString]) => {
-        this.currentPage = 0; // Reset the current page whenever filtering changes
+    // Update the filtered data whenever the search signal changes
+    this.filteredResult$ = combineLatest([this.data$, searchObservable$]).pipe(
+      map(([values, filterString] ) => {
+        this.currentPage = 0; // Reset page whenever filtering changes
         const filteredData = this.applyFilterSortPagination(values, filterString);
-        this.totalPages = Math.ceil(filteredData.length / this.pageSize); // Update total pages based on filtered data
-        // Slice the filtered data for pagination
+        this.totalPages = Math.ceil(filteredData.length / this.pageSize); 
         const start = this.currentPage * this.pageSize;
-
+        
         return filteredData.slice(start, start + this.pageSize);
       }),
-      takeUntilDestroyed(this.destroyRef) 
-    );
-  
-    // Subscribe to filter changes to update the filtered data immediately
-    filter$.pipe(
       takeUntilDestroyed(this.destroyRef)
-    ).subscribe(() => {
-      this.updateFilteredData(); // Call to update the filtered data immediately
-    });
+    );
 
   }
-
-  // Signal PATH
-  // create a signal which stores our search value
-  searchSig = signal<string>('');
-  
+ 
   search(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     // update this signal when we change the input with set method
-    this.searchSig.set(value);
+    this.searchSignal.set(value);
     console.log('Typed Value:', value);
   }
 
   sort(sortOrder: 'asc' | 'desc'): void {
     this.sortOrder = sortOrder;
-
     this.sortDirection = sortOrder;
+
     this.filteredResult$ = this.data$.pipe(
-      startWith([]), // Ensure that an empty array is emitted immediately
-      map(values => this.applyFilterSortPagination(values, this.filter.value)),
+      map(values => this.applyFilterSortPagination(values, this.searchSignal())),
       takeUntilDestroyed(this.destroyRef) 
     );
+  }
+
+  onPageChange(newPage: number) {
+    this.currentPage = newPage;
+    this.updateFilteredData();
   }
 
   nextPage() {
@@ -151,7 +139,7 @@ export class ClientSideSignalComponent implements OnInit {
   }
 
   private applyFilterSortPagination(countries: any[], filterString: string) {
-    // Filtering
+    // Use the signal value directly for filtering
     let filtered = countries.filter(country =>
       country.name.toLowerCase().includes(filterString.toLowerCase())
     );
@@ -171,21 +159,14 @@ export class ClientSideSignalComponent implements OnInit {
 
   private updateFilteredData() {
     this.filteredResult$ = this.data$.pipe(
-      startWith([]),
       map(values => {
-        const filteredData = this.applyFilterSortPagination(values, this.filter.value);
+        const filteredData = this.applyFilterSortPagination(values, this.searchSignal());
         this.totalPages = Math.ceil(filteredData.length / this.pageSize); // Recalculate total pages
         const start = this.currentPage * this.pageSize;
 
         return filteredData.slice(start, start + this.pageSize);
       })
     );
-  }
-
-  onPageChange(newPage: number) {
-    console.log(newPage)
-    this.currentPage = newPage;
-    this.updateFilteredData();
   }
   
 }
