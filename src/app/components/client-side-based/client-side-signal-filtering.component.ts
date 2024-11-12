@@ -3,8 +3,8 @@ import {CommonModule} from '@angular/common';
 import {Component,DestroyRef,inject,OnInit,signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder,FormGroup,ReactiveFormsModule} from '@angular/forms';
-import {combineLatest,from,Observable,of} from 'rxjs';
-import {catchError,map,shareReplay,startWith} from 'rxjs/operators';
+import {combineLatest,Observable,of} from 'rxjs';
+import {catchError,map,shareReplay,startWith,tap} from 'rxjs/operators';
 
 import {SearchService} from '../../services/client.side.based.pagination.service';
 import {HttpErrorService} from '../../shared/http-error.service';
@@ -23,7 +23,7 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
       <form [formGroup]="form">
         
         <!-- Filtsr Input using signal -->
-        <input type="text" (keyup)="search($event)" />
+        <input type="text" (keyup)="search($event)" placeholder="Type to search..." />
         <!-- <p>Typed Value: {{ searchSig() }}</p>  -->
 
         <!-- Sort Dropdown -->
@@ -57,7 +57,6 @@ export class ClientSideSignalComponent implements OnInit {
   pageSize = 3; 
   sortOrder: 'asc' | 'desc' = 'asc';
   filteredCount = 0;
-  // Signal PATH
   // create a signal which stores our search value
   searchSignal = signal<string>('');
    
@@ -72,7 +71,6 @@ export class ClientSideSignalComponent implements OnInit {
       filter: ['']
     });
   }
-
   ngOnInit() {
     // Fetch data and cache it
     this.data$ = this.searchService.getData().pipe(
@@ -86,20 +84,19 @@ export class ClientSideSignalComponent implements OnInit {
       })
     );
 
-    // Create an observable from the search signal
-    const searchObservable$ = from(this.searchSignal());
-
     // Update the filtered data whenever the search signal changes
-    this.filteredResult$ = combineLatest([this.data$, searchObservable$]).pipe(
-      map(([values, filterString] ) => {
+    this.filteredResult$ = combineLatest([this.data$, this.searchSignal()]).pipe(
+      map(([values, filterString]) => {
+        console.log('Map operator called');
         this.currentPage = 0; // Reset page whenever filtering changes
         const filteredData = this.applyFilterSortPagination(values, filterString);
-        this.totalPages = Math.ceil(filteredData.length / this.pageSize); 
+        this.totalPages = Math.ceil(filteredData.length / this.pageSize);
         const start = this.currentPage * this.pageSize;
-        
+
         return filteredData.slice(start, start + this.pageSize);
       }),
-      takeUntilDestroyed(this.destroyRef)
+      takeUntilDestroyed(this.destroyRef),
+      tap(filteredData => console.log('Filtered Result:', filteredData))
     );
 
   }
@@ -139,10 +136,14 @@ export class ClientSideSignalComponent implements OnInit {
   }
 
   private applyFilterSortPagination(countries: any[], filterString: string) {
+    console.log('Applying filter with:', filterString); // Log filterString
+
     // Use the signal value directly for filtering
     let filtered = countries.filter(country =>
       country.name.toLowerCase().includes(filterString.toLowerCase())
     );
+
+    console.log('Filtered results:', filtered); // Log filtered data
 
     // Update the count of filtered data
     this.filteredCount = filtered.length;
