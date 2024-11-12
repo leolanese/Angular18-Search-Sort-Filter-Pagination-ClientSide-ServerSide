@@ -91,8 +91,8 @@ I'm using provides a more declarative and efficient way to handle automatic clea
 Using modern angular control flows offering granular implementations.
 Results: Better runtime performance than *ngFor (especially for large lists) and smaller size Components
 
-- Always avoid `Double instantiation`, when using `@Module`.
-> If we have a new granular @Module, `remove the references in the global root app.module`
+- Always avoid `Double instantiation`, if using `@Module` and use new granular way by `remove the references in the global root app.module`
+
 ```js
 // global app.module
 @Module({
@@ -118,6 +118,28 @@ Results: Better runtime performance than *ngFor (especially for large lists) and
 
 - Signals:
 Using value from the signal `(searchSig)` to filter your data. Instead of using the filter form control for filtering, using the signal to filter the data directly. This will reduce the number of subscriptions and improve performance.
+
+- Proxying to a backend server
+
+```js
+// proxy.conf.json
+{
+  "/api": {
+    "target": "http://localhost:3000",
+    "secure": false
+  }
+}
+```
+
+```js
+// angular.json
+...
+  "options": {
+    "proxyConfig": "src/proxy.conf.json"
+  }
+...
+```
+
 
 ---
 
