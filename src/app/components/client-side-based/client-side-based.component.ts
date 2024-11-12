@@ -1,10 +1,10 @@
 import {CommonModule} from '@angular/common';
 
-import {Component,DestroyRef,inject,OnInit} from '@angular/core';
+import {Component,DestroyRef,inject,OnInit,signal} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder,FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
 import {combineLatest,Observable,of} from 'rxjs';
-import {catchError,debounceTime,distinctUntilChanged,map,shareReplay,startWith} from 'rxjs/operators';
+import {catchError,debounceTime,distinctUntilChanged,map,shareReplay,startWith,tap} from 'rxjs/operators';
 
 import {SearchService} from '../../services/client.side.based.pagination.service';
 import {HttpErrorService} from '../../shared/http-error.service';
@@ -25,11 +25,15 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
         <!-- Filter Input -->
         <app-filter-input [filterControl]="filter"></app-filter-input>
 
+        <!-- Input Field -->
+        <input type="text" (keyup)="search($event)" />
+        <!-- <p>Typed Value: {{ searchSig() }}</p>  -->
+
         <!-- Sort Dropdown -->
         <app-sort-dropdown (sortChanged)="sort($event)"></app-sort-dropdown>
 
         <!-- List -->
-       <app-list [countries]="(filteredCountry$ | async) ?? []"></app-list>
+       <app-list [countries]="(filteredResult$ | async) ?? []"></app-list>
        <p>Total found: {{ filteredCount }}</p>
 
         <!-- Pagination -->
@@ -48,7 +52,7 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
 export class ClientSideBasedComponent implements OnInit {
   title = 'Search, Sort, and Pagination Components using Array/List Data Structure';
   data$: Observable<any[]> = of([]);
-  filteredCountry$!: Observable<any[]>;
+  filteredResult$!: Observable<any[]>;
   form: FormGroup;
   filter: FormControl;
   sortDirection: string = 'asc';
@@ -57,8 +61,7 @@ export class ClientSideBasedComponent implements OnInit {
   pageSize = 3; 
   sortOrder: 'asc' | 'desc' = 'asc';
   filteredCount = 0;
-  
-
+ 
   private searchService = inject(SearchService)
   private fb = inject(FormBuilder)
   private destroyRef = inject(DestroyRef)
@@ -73,24 +76,25 @@ export class ClientSideBasedComponent implements OnInit {
   }
 
   ngOnInit() {
+    // Fetch data and cache it
     this.data$ = this.searchService.getData().pipe(
       startWith([]), // Emit an empty array before the actual data arrives
       shareReplay(1), // Cache the data to avoid re-fetching it on every subscription
       catchError((err) => {
-        console.error('Error fetching data:', err);
         this.errorService.formatError(err)
         this.toastService.show('Error loading Data');
+
         return of([]); // Return an empty array in case of an error
       })
     );
 
     const filter$ = this.filter.valueChanges.pipe(
-      startWith(''),
+      tap(value => console.log('Typed Value in Filter Input:', value)) ,
       distinctUntilChanged(),
       debounceTime(300)
     );
 
-    this.filteredCountry$ = combineLatest([this.data$, filter$]).pipe(
+    this.filteredResult$ = combineLatest([this.data$, filter$]).pipe(
       map(([values, filterString]) => {
         this.currentPage = 0; // Reset the current page whenever filtering changes
         const filteredData = this.applyFilterSortPagination(values, filterString);
@@ -112,11 +116,22 @@ export class ClientSideBasedComponent implements OnInit {
 
   }
 
+  // Signal PATH
+  // create a signal which stores our search value
+  searchSig = signal<string>('');
+  
+  search(event: Event) {
+    const value = (event.target as HTMLInputElement).value;
+    // update this signal when we change the input with set method
+    this.searchSig.set(value);
+    console.log('Typed Value:', value);
+  }
+
   sort(sortOrder: 'asc' | 'desc'): void {
     this.sortOrder = sortOrder;
 
     this.sortDirection = sortOrder;
-    this.filteredCountry$ = this.data$.pipe(
+    this.filteredResult$ = this.data$.pipe(
       startWith([]), // Ensure that an empty array is emitted immediately
       map(values => this.applyFilterSortPagination(values, this.filter.value)),
       takeUntilDestroyed(this.destroyRef) 
@@ -155,7 +170,7 @@ export class ClientSideBasedComponent implements OnInit {
   }
 
   private updateFilteredData() {
-    this.filteredCountry$ = this.data$.pipe(
+    this.filteredResult$ = this.data$.pipe(
       startWith([]),
       map(values => {
         const filteredData = this.applyFilterSortPagination(values, this.filter.value);
