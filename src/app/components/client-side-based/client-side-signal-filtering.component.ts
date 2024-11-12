@@ -1,10 +1,10 @@
 import {CommonModule} from '@angular/common';
 
-import {Component,DestroyRef,inject,OnInit,signal} from '@angular/core';
-import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
+import {ChangeDetectionStrategy,Component,DestroyRef,inject,OnInit,signal} from '@angular/core';
+import {takeUntilDestroyed,toObservable} from '@angular/core/rxjs-interop';
 import {FormBuilder,FormGroup,ReactiveFormsModule} from '@angular/forms';
 import {combineLatest,Observable,of} from 'rxjs';
-import {catchError,map,shareReplay,startWith,tap} from 'rxjs/operators';
+import {catchError,map,startWith,tap} from 'rxjs/operators';
 
 import {SearchService} from '../../services/client.side.based.pagination.service';
 import {HttpErrorService} from '../../shared/http-error.service';
@@ -44,7 +44,7 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
     </div>
   `,
   imports: [CommonModule, ReactiveFormsModule, PaginationComponent, ListComponent, SortDropdownComponent, FilterInputComponent],
-  providers: [SearchService, HttpErrorService, ToastService] // declare dependencies isolated mod not globally provided
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ClientSideSignalComponent implements OnInit {
   title = 'Signal based: Search, Sort, and Pagination Components using Array/List Data Structure';
@@ -58,8 +58,9 @@ export class ClientSideSignalComponent implements OnInit {
   sortOrder: 'asc' | 'desc' = 'asc';
   filteredCount = 0;
   // create a signal which stores our search value
-  searchSignal = signal<string>('');
-   
+  searchSig = signal<string>('');
+  searchSignal$!: Observable<string>;
+
   private searchService = inject(SearchService)
   private fb = inject(FormBuilder)
   private destroyRef = inject(DestroyRef)
@@ -70,12 +71,16 @@ export class ClientSideSignalComponent implements OnInit {
     this.form = this.fb.group({
       filter: ['']
     });
+    // Create an observable from the search signal within cosntructor
+    this.searchSignal$ = toObservable(this.searchSig).pipe(
+      tap(value => console.log('Search signal emitted:', value))
+    );
   }
   ngOnInit() {
     // Fetch data and cache it
     this.data$ = this.searchService.getData().pipe(
+      
       startWith([]), // Emit an empty array before the actual data arrives
-      shareReplay(1), // Cache the data to avoid re-fetching it on every subscription
       catchError((err) => {
         this.errorService.formatError(err)
         this.toastService.show('Error loading Data');
@@ -83,11 +88,18 @@ export class ClientSideSignalComponent implements OnInit {
         return of([]); // Return an empty array in case of an error
       })
     );
-
+ 
+    // ! = SSSUE: combineLatest operator is not emitting any values
+    // 1 - The this.data$ observable is not emitting any values
+    // 2 - The this.searchSignal() signal is not emitting any values
+    //
     // Update the filtered data whenever the search signal changes
-    this.filteredResult$ = combineLatest([this.data$, this.searchSignal()]).pipe(
+    this.filteredResult$ = combineLatest([this.data$, this.searchSignal$]).pipe(
+      tap(([values, filterString]) => {
+        console.log('CombineLatest operator emitted values:', values, filterString);
+      }),
       map(([values, filterString]) => {
-        console.log('Map operator called');
+        console.log('Map operator called with filterString:', filterString);
         this.currentPage = 0; // Reset page whenever filtering changes
         const filteredData = this.applyFilterSortPagination(values, filterString);
         this.totalPages = Math.ceil(filteredData.length / this.pageSize);
@@ -95,17 +107,16 @@ export class ClientSideSignalComponent implements OnInit {
 
         return filteredData.slice(start, start + this.pageSize);
       }),
-      takeUntilDestroyed(this.destroyRef),
-      tap(filteredData => console.log('Filtered Result:', filteredData))
-    );
+      tap(filteredData => console.log('Final filteredResult$:', filteredData))
+    )
 
   }
  
   search(event: Event) {
     const value = (event.target as HTMLInputElement).value;
     // update this signal when we change the input with set method
-    this.searchSignal.set(value);
-    console.log('Typed Value:', value);
+    this.searchSig.set(value);
+    console.log('Search signal updated:', this.searchSig());
   }
 
   sort(sortOrder: 'asc' | 'desc'): void {
@@ -113,7 +124,7 @@ export class ClientSideSignalComponent implements OnInit {
     this.sortDirection = sortOrder;
 
     this.filteredResult$ = this.data$.pipe(
-      map(values => this.applyFilterSortPagination(values, this.searchSignal())),
+      map(values => this.applyFilterSortPagination(values, this.searchSig())),
       takeUntilDestroyed(this.destroyRef) 
     );
   }
@@ -161,7 +172,7 @@ export class ClientSideSignalComponent implements OnInit {
   private updateFilteredData() {
     this.filteredResult$ = this.data$.pipe(
       map(values => {
-        const filteredData = this.applyFilterSortPagination(values, this.searchSignal());
+        const filteredData = this.applyFilterSortPagination(values, this.searchSig());
         this.totalPages = Math.ceil(filteredData.length / this.pageSize); // Recalculate total pages
         const start = this.currentPage * this.pageSize;
 

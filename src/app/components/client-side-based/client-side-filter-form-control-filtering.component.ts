@@ -1,6 +1,6 @@
 import {CommonModule} from '@angular/common';
 
-import {Component,DestroyRef,inject,OnInit} from '@angular/core';
+import {ChangeDetectionStrategy,Component,DestroyRef,inject,OnInit} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder,FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
 import {combineLatest,Observable,of} from 'rxjs';
@@ -43,7 +43,8 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
     </div>
   `,
   imports: [CommonModule, ReactiveFormsModule, PaginationComponent, ListComponent, SortDropdownComponent, FilterInputComponent],
-  providers: [SearchService, HttpErrorService, ToastService] // declare dependencies isolated mod not globally provided
+  providers: [SearchService, HttpErrorService, ToastService], // declare dependencies isolated mod not globally provided
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ClientSideFilterFormControlComponent implements OnInit {
   title = 'Filter Form Control based: Search, Sort, and Pagination Components using Array/List Data Structure';

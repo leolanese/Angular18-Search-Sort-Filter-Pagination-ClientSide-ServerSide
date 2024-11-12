@@ -16,6 +16,7 @@ export class SearchService {
   constructor(private http: HttpClient) {}
   
   getData(): Observable<Names[]> {
+     console.log('getData method called');
     return this.http.get<any[]>(this.apiUrl).pipe(
       // Transform the data to the expected structure
       map(users => users.map(user => ({ name: user.name })))
