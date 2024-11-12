@@ -77,7 +77,6 @@ I'm using modern function Interceptors (Angular 15+) this contribute to a better
 I'm implementing `Preloading` technique provideRouter(routes, withPreloading(PreloadAllModules)). Also using standAlone Components and `.inject()` to help tree-shaking.
 Results: This technique allows my App to load lazy-loaded modules in the background while the user is interacting with the currently loaded module
 
-
 - Implement Caching:
 -- `Cache API Service Calls`
 Caches identical HTTP requests within a single component:
@@ -116,6 +115,9 @@ Results: Better runtime performance than *ngFor (especially for large lists) and
 
 - Keep Application `modularized` 
 > We need to leave the App encapsualted into its own dedicated portable Module, so we can have a `feature-based module organised`
+
+- Signals:
+Using value from the signal `(searchSig)` to filter your data. Instead of using the filter form control for filtering, using the signal to filter the data directly. This will reduce the number of subscriptions and improve performance.
 
 ---
 

@@ -1,6 +1,6 @@
 import {CommonModule} from '@angular/common';
 
-import {Component,DestroyRef,inject,OnInit,signal} from '@angular/core';
+import {Component,DestroyRef,inject,OnInit} from '@angular/core';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {FormBuilder,FormControl,FormGroup,ReactiveFormsModule} from '@angular/forms';
 import {combineLatest,Observable,of} from 'rxjs';
@@ -15,7 +15,7 @@ import {PaginationComponent} from "./Pagination.component";
 import {SortDropdownComponent} from "./Sort-dropdown.component";
 
 @Component({
-  selector: 'app-client-side-based',
+  selector: 'app-client-side-filter-form-control-filtering',
   standalone: true,
   template: `
     <h3>{{ title }}</h3>
@@ -24,10 +24,6 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
         
         <!-- Filter Input -->
         <app-filter-input [filterControl]="filter"></app-filter-input>
-
-        <!-- Input Field -->
-        <input type="text" (keyup)="search($event)" />
-        <!-- <p>Typed Value: {{ searchSig() }}</p>  -->
 
         <!-- Sort Dropdown -->
         <app-sort-dropdown (sortChanged)="sort($event)"></app-sort-dropdown>
@@ -49,8 +45,8 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
   imports: [CommonModule, ReactiveFormsModule, PaginationComponent, ListComponent, SortDropdownComponent, FilterInputComponent],
   providers: [SearchService, HttpErrorService, ToastService] // declare dependencies isolated mod not globally provided
 })
-export class ClientSideBasedComponent implements OnInit {
-  title = 'Search, Sort, and Pagination Components using Array/List Data Structure';
+export class ClientSideFilterFormControlComponent implements OnInit {
+  title = 'Filter Form Control based: Search, Sort, and Pagination Components using Array/List Data Structure';
   data$: Observable<any[]> = of([]);
   filteredResult$!: Observable<any[]>;
   form: FormGroup;
@@ -114,17 +110,6 @@ export class ClientSideBasedComponent implements OnInit {
       this.updateFilteredData(); // Call to update the filtered data immediately
     });
 
-  }
-
-  // Signal PATH
-  // create a signal which stores our search value
-  searchSig = signal<string>('');
-  
-  search(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
-    // update this signal when we change the input with set method
-    this.searchSig.set(value);
-    console.log('Typed Value:', value);
   }
 
   sort(sortOrder: 'asc' | 'desc'): void {

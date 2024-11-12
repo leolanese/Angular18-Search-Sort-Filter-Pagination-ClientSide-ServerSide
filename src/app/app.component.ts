@@ -1,6 +1,7 @@
 import {Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {ClientSideBasedComponent} from "./components/client-side-based/client-side-based.component";
+import {ClientSideFilterFormControlComponent} from "./components/client-side-based/client-side-filter-form-control-filtering.component";
+import {ClientSideSignalComponent} from "./components/client-side-based/client-side-signal-filtering.component";
 import {ChangeDetectionVisualizerComponent} from './shared/change-detection-visualizer';
 import {ToastModalComponent} from './shared/toastModal.component';
 
@@ -12,20 +13,24 @@ import {ToastModalComponent} from './shared/toastModal.component';
     ToastModalComponent,
     ChangeDetectionVisualizerComponent,
     ToastModalComponent,
-    ClientSideBasedComponent
+    ClientSideFilterFormControlComponent,
+    ClientSideSignalComponent
 ],
   template: `
     <h1>{{title}}</h1>
-    <app-toast-modal></app-toast-modal>
+    <app-toast-modal />
 
     <!-- Smart/Dymmy + Service API request + cache Interceptor = requestsInterceptor -->
     <!-- <app-smart /> -->
 
     <!-- Server-side-based filter, sort, pagination -->
-    <!-- <app-server-side-based></app-server-side-based> -->
+    <!-- <app-server-side-based />-->
 
-    <!-- Client-side-based filter, sort, pagination -->
-    <app-client-side-based></app-client-side-based>
+    <!-- Client-side-based filter, sort, pagination using filter form control for filtering -->
+    <app-client-side-filter-form-control-filtering />
+
+    <!-- Client-side-based filter, sort, pagination using Signal for filtering -->
+    <app-client-side-signal-filtering />
 
     <!-- <app-change-detection-visualizer /> -->
   `,
