@@ -9,7 +9,7 @@ import {catchError,map,startWith,tap} from 'rxjs/operators';
 import {SearchService} from '../../services/client.side.based.pagination.service';
 import {HttpErrorService} from '../../shared/http-error.service';
 import {ToastService} from '../../shared/toastModal.component';
-import {FilterInputComponent} from "./Filter-input.component";
+import {FilterInputSignalComponent} from './Filter-input-signal.component';
 import {ListComponent} from "./List.component";
 import {PaginationComponent} from "./Pagination.component";
 import {SortDropdownComponent} from "./Sort-dropdown.component";
@@ -22,9 +22,8 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
     <div class="container">
       <form [formGroup]="form">
         
-        <!-- Filtsr Input using signal -->
-        <input type="text" (keyup)="search($event)" placeholder="Type to search..." />
-        <!-- <p>Typed Value: {{ searchSig() }}</p>  -->
+        <!-- Use the SearchInput component and handle the search event -->
+        <app-filter-input-signal (searchChanged)="search($event)" />
 
         <!-- Sort Dropdown -->
         <app-sort-dropdown (sortChanged)="sort($event)"></app-sort-dropdown>
@@ -43,7 +42,7 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
       </form>
     </div>
   `,
-  imports: [CommonModule, ReactiveFormsModule, PaginationComponent, ListComponent, SortDropdownComponent, FilterInputComponent],
+  imports: [CommonModule, ReactiveFormsModule, PaginationComponent, ListComponent, SortDropdownComponent, FilterInputSignalComponent],
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ClientSideSignalComponent implements OnInit {
@@ -112,8 +111,7 @@ export class ClientSideSignalComponent implements OnInit {
 
   }
  
-  search(event: Event) {
-    const value = (event.target as HTMLInputElement).value;
+  search(value: string) {
     // update this signal when we change the input with set method
     this.searchSig.set(value);
     console.log('Search signal updated:', this.searchSig());
