@@ -22,16 +22,14 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
       <form>
         
         <!-- Use the SearchInput component and handle the search event -->
-        <app-filter-input-signal (searchChanged)="onSearch($event)" />
+        <app-filter-input-signal [searchSignal]="searchService.getSearch$" />
 
         <!-- Sort Dropdown -->
         <app-sort-dropdown (sortChanged)="sort($event)"></app-sort-dropdown>
 
         <!-- List -->
-       <!-- <app-list [countries]="(filteredResult$ | async) ?? []"></app-list>
-       <p>Total found: {{ filteredCount }}</p> -->
-       <app-list  [countries]="(filteredResult$ | async) ?? []"></app-list>
-       <p>Total found: {{ filteredCount }}</p>
+        <app-list  [countries]="(filteredResult$ | async) ?? []"></app-list>
+        <p>Total found: {{ filteredCount }}</p>
 
         <!-- Pagination -->
         <app-pagination
@@ -61,7 +59,7 @@ export class ClientSideSignalComponent implements OnInit {
   sortOrder: 'asc' | 'desc' = 'asc';
   filteredCount = 0;
 
-  private searchService = inject(SearchService)
+  public searchService = inject(SearchService)
   private destroyRef = inject(DestroyRef)
   private toastService = inject(ToastService);
   private errorService = inject(HttpErrorService);

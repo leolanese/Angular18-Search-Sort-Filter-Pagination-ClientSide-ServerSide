@@ -1,5 +1,5 @@
 import {HttpClient} from '@angular/common/http';
-import {Injectable,signal} from '@angular/core';
+import {inject,Injectable,signal} from '@angular/core';
 import {Observable} from 'rxjs';
 import {map} from 'rxjs/operators';
 
@@ -12,11 +12,16 @@ interface Names {
 })
 export class SearchService {
   private apiUrl = 'https://jsonplaceholder.typicode.com/users';
+  private http = inject(HttpClient);
 
-  constructor(private http: HttpClient) {}
+  constructor() {}
 
   // Define a signal to store the search value
   searchSig = signal<string>('');
+
+  get getSearch$() {
+    return this.searchSig;
+  }
   
   setSearch(value: string): any {
     this.searchSig.set(value);
