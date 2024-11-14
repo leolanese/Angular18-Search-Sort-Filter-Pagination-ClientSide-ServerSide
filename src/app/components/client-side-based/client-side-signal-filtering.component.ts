@@ -69,7 +69,6 @@ export class ClientSideSignalComponent implements OnInit {
   constructor() { }
 
   ngOnInit() {
-    // Data provided by SearchService
     this.data$ = this.searchService.getData().pipe(
       tap(([data, filterString]) => {
         console.log("Data received:", data);
@@ -87,7 +86,7 @@ export class ClientSideSignalComponent implements OnInit {
     this.filteredResult$ = combineLatest([
       this.data$, // initial data Observable
       this.searchSig$, // search signal Observable
-      of(this.currentPage), // Convert currentPage signal to observable
+      of(this.currentPage()), // Converting currentPage signal to observable
     ]).pipe(
       map(([data, filterString, currentPage]) => 
         this.applyFilterSortPagination(data, filterString, currentPage)),
@@ -101,13 +100,12 @@ export class ClientSideSignalComponent implements OnInit {
 
   onSearch(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
-    this.searchService.searchSig.set(value); // Update the signal directly
+    this.searchService.searchSig.set(value);
   }
 
   sort(sortOrder: 'asc' | 'desc'): void {
     this.sortOrder = sortOrder;
     this.sortDirection = sortOrder;
-
     this.updateFilteredData();
   }
 
@@ -129,7 +127,7 @@ export class ClientSideSignalComponent implements OnInit {
       item.name.toLowerCase().includes(filterString.toLowerCase())
     );
 
-    console.log("Filtered Data applyFilterSortPagination:", filtered);  // Log filtered data here
+    console.log("Filtered Data applyFilterSortPagination:", filtered);
 
     // Update the count of filtered data
     this.filteredCount = filtered.length;
@@ -151,7 +149,7 @@ export class ClientSideSignalComponent implements OnInit {
     this.filteredResult$ = combineLatest([
       this.data$,
       this.searchSig$,
-      of(this.currentPage)
+      of(this.currentPage())
     ]).pipe(
       tap(([data, filterString, currentPage]) => {
         console.log("Data received:", data);
@@ -160,14 +158,14 @@ export class ClientSideSignalComponent implements OnInit {
       }),
       map(([data, filterString, currentPage ]) => {
         if (!data) {
-          console.error("Data is undefined or null");
+          this.toastService.show('Data is undefined or null');
           return [];
         }
 
         const filteredData = this.applyFilterSortPagination(data, filterString, currentPage );
         this.filteredCount = filteredData.length;
         this.totalPages = Math.ceil(filteredData.length / this.pageSize);
-        const start = this.currentPage() * this.pageSize;
+        const start = currentPage * this.pageSize;
 
         return filteredData.slice(start, start + this.pageSize);
       }),
