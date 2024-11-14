@@ -6,8 +6,8 @@ import {Component,EventEmitter,Input,Output} from '@angular/core';
   standalone: true,
   template: `
     <div>
-      <button (click)="previousPage()" [disabled]="currentPage <= 0">Previous</button>
-      <button (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Next</button>
+      <button type="button" (click)="previousPage()" [disabled]="currentPage <= 0">Previous</button>
+      <button type="button" (click)="nextPage()" [disabled]="currentPage >= totalPages - 1">Next</button>
       <p>Page {{ currentPage + 1 }} of {{ totalPages }}</p>
     </div>
   `,

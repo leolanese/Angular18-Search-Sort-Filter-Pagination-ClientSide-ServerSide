@@ -1,5 +1,5 @@
 import {SearchService} from '@/services/client.side.based.pagination.service';
-import {Component,inject} from '@angular/core';
+import {Component,inject,Input,Signal} from '@angular/core';
 
 @Component({
   selector: 'app-filter-input-signal',
@@ -13,6 +13,9 @@ import {Component,inject} from '@angular/core';
   `,
 })
 export class FilterInputSignalComponent {
+  // Define a Signal Input to update the parent signal
+  @Input() searchSignal!: Signal<string>;
+
   // Call the correct method to update the signal
   private searchService = inject(SearchService);
 

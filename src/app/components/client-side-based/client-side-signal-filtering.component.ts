@@ -1,6 +1,6 @@
 import {CommonModule} from '@angular/common';
 
-import {ChangeDetectionStrategy,Component,DestroyRef,inject,OnInit} from '@angular/core';
+import {ChangeDetectionStrategy,Component,DestroyRef,inject,OnInit,signal} from '@angular/core';
 import {takeUntilDestroyed,toObservable} from '@angular/core/rxjs-interop';
 import {combineLatest,Observable,of} from 'rxjs';
 import {catchError,map,shareReplay,startWith,tap} from 'rxjs/operators';
@@ -35,7 +35,7 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
 
         <!-- Pagination -->
         <app-pagination
-          [currentPage]="currentPage"
+          [currentPage]="currentPage()"
           [totalPages]="totalPages"
           (pageChange)="onPageChange($event)">
         </app-pagination>
@@ -52,9 +52,9 @@ export class ClientSideSignalComponent implements OnInit {
   filteredResult$!: Observable<any[]>;
   // create a signal which stores our search value
   searchSig$ = toObservable(inject(SearchService).searchSig); // Convert to observable in constructor context
+  currentPage = signal(0); // currentPage signal
 
   sortDirection: string = 'asc';
-  currentPage = 0;
   totalPages = 0;
   pageSize = 3; 
   sortOrder: 'asc' | 'desc' = 'asc';
@@ -86,38 +86,37 @@ export class ClientSideSignalComponent implements OnInit {
     this.filteredResult$ = combineLatest([
       this.data$, // initial data Observable
       this.searchSig$, // search signal Observable
-      of(this.currentPage) // making to react to changes in currentPage signal
+      of(this.currentPage), // Convert currentPage signal to observable
     ]).pipe(
-      map(([data, filterString]) => this.applyFilterSortPagination(data, filterString)),
+      map(([data, filterString, currentPage]) => 
+        this.applyFilterSortPagination(data, filterString, currentPage)),
       tap(filteredData => {
         this.filteredCount = filteredData.length;
         this.totalPages = Math.ceil(filteredData.length / this.pageSize);
-        console.log("Final Filtered Data:", filteredData);
       }),
       takeUntilDestroyed(this.destroyRef) 
     );
-
   }
 
   onSearch(event: Event): void {
     const value = (event.target as HTMLInputElement).value;
-    this.currentPage = 0; // Reset to first page on new search
     this.searchService.searchSig.set(value); // Update the signal directly
   }
 
   sort(sortOrder: 'asc' | 'desc'): void {
     this.sortOrder = sortOrder;
     this.sortDirection = sortOrder;
-    this.currentPage = 0; // Reset to first page on new sort
+
     this.updateFilteredData();
   }
 
   onPageChange(newPage: number) {
-    this.currentPage = newPage;
+    this.currentPage.set(newPage);
     this.updateFilteredData();
+    console.log('Current Page:', this.currentPage());
   }
 
-  private applyFilterSortPagination(data: any[], filterString: string) {
+  private applyFilterSortPagination(data: any[], filterString: string, currentPage: any) {
     // Return empty array if no search term is present
     if (!filterString.trim()) {
       this.filteredCount = 0;
@@ -125,32 +124,40 @@ export class ClientSideSignalComponent implements OnInit {
     }
 
     // Filtering
-    let filtered = data.filter(val =>
-      val.name.toLowerCase().includes(filterString.toLowerCase())
+    let filtered = data.filter(item =>
+      item.name.toLowerCase().includes(filterString.toLowerCase())
     );
+
+    console.log("Filtered Data applyFilterSortPagination:", filtered);  // Log filtered data here
 
     // Update the count of filtered data
     this.filteredCount = filtered.length;
 
-    // sorting
+    // sorting data
     filtered = filtered.sort((a, b) =>
       this.sortDirection === 'asc'
         ? a.name.localeCompare(b.name)
         : b.name.localeCompare(a.name)
     );
 
-    return filtered;
+    // pagination logic here
+    const startIndex = currentPage  * this.pageSize;
+    const paginatedData = filtered.slice(startIndex, startIndex + this.pageSize);
+
+    // Update totalPages based on filtered data
+    this.totalPages = Math.ceil(filtered.length / this.pageSize);
+
+    return filtered
   }
 
   private updateFilteredData() {
-    // Only updates filteredResult$ by triggering it on page or sort changes
     this.filteredResult$ = combineLatest([
       this.data$,
       this.searchSig$,
-      of(this.currentPage) // React to currentPage changes
+      of(this.currentPage)  // Convert currentPage signal to observable
     ]).pipe(
-      map(([data, filterString]) => {
-        const filteredData = this.applyFilterSortPagination(data, filterString);
+      map(([data, filterString, currentPage ]) => {
+        const filteredData = this.applyFilterSortPagination(data, filterString, currentPage );
         this.filteredCount = filteredData.length;
         this.totalPages = Math.ceil(filteredData.length / this.pageSize);
         return filteredData;

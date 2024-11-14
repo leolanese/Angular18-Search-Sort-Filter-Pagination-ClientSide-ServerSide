@@ -140,6 +140,8 @@ export class ClientSideFilterFormControlComponent implements OnInit {
     let filtered = data.filter(val =>
       val.name.toLowerCase().includes(filterString.toLowerCase())
     );
+    
+    console.log("Filtered Data applyFilterSortPagination:", filtered);  // Log filtered data here
 
     // Update the count of filtered data
     this.filteredCount = filtered.length;

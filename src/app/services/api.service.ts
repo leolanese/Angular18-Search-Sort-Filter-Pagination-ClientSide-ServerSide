@@ -1,6 +1,6 @@
-import { Injectable, inject } from '@angular/core';
-import { HttpClient } from '@angular/common/http';
-import { Observable, debounceTime, map, shareReplay } from 'rxjs';
+import {HttpClient} from '@angular/common/http';
+import {Injectable,inject} from '@angular/core';
+import {Observable,debounceTime,map,shareReplay} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
@@ -15,7 +15,7 @@ export class APIService {
   //  arrow functions capture the this value of their enclosing context at the time they're defined, 
   // they retain the correct this reference no matter how they're called.
   getTerm = (term: string): Observable<any[]> => {
-    let apiUrl =  `${this.apiRooturl}${term}`;
+    let apiUrl = `${this.apiRooturl}${term}`;
 
     return this.http.get<any[]>(apiUrl)
       .pipe(
