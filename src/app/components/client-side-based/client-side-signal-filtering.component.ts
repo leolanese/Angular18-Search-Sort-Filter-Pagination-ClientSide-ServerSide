@@ -50,8 +50,9 @@ export class ClientSideSignalComponent implements OnInit {
   title = 'Signal based: Search, Sort, and Pagination Components using Array/List Data Structure';
   data$: Observable<any[]> = of([]);
   filteredResult$!: Observable<any[]>;
+
   // create a signal which stores our search value
-  searchSig$ = toObservable(inject(SearchService).searchSig); // Convert to observable in constructor context
+  searchSig$ = toObservable(inject(SearchService).searchSig); 
   currentPage = signal(0); // currentPage signal
 
   sortDirection: string = 'asc';
@@ -140,10 +141,6 @@ export class ClientSideSignalComponent implements OnInit {
         : b.name.localeCompare(a.name)
     );
 
-    // pagination logic here
-    const startIndex = currentPage  * this.pageSize;
-    const paginatedData = filtered.slice(startIndex, startIndex + this.pageSize);
-
     // Update totalPages based on filtered data
     this.totalPages = Math.ceil(filtered.length / this.pageSize);
 
@@ -162,12 +159,23 @@ export class ClientSideSignalComponent implements OnInit {
         console.log("Current Page:", currentPage) 
       }),
       map(([data, filterString, currentPage ]) => {
+        if (!data) {
+          console.error("Data is undefined or null");
+          return [];
+        }
+
         const filteredData = this.applyFilterSortPagination(data, filterString, currentPage );
         this.filteredCount = filteredData.length;
         this.totalPages = Math.ceil(filteredData.length / this.pageSize);
         const start = this.currentPage() * this.pageSize;
 
         return filteredData.slice(start, start + this.pageSize);
+      }),
+      catchError(err => {
+        console.error("Error in updateFilteredData:", err);
+        this.errorService.formatError(err)
+        this.toastService.show('Error in updateFilteredData');
+        return of([]);
       }),
       takeUntilDestroyed(this.destroyRef) 
     );
