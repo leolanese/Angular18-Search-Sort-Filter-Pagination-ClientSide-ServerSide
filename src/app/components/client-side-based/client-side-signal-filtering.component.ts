@@ -154,13 +154,20 @@ export class ClientSideSignalComponent implements OnInit {
     this.filteredResult$ = combineLatest([
       this.data$,
       this.searchSig$,
-      of(this.currentPage)  // Convert currentPage signal to observable
+      of(this.currentPage)
     ]).pipe(
+      tap(([data, filterString, currentPage]) => {
+        console.log("Data received:", data);
+        console.log("Filter string received:", filterString);
+        console.log("Current Page:", currentPage) 
+      }),
       map(([data, filterString, currentPage ]) => {
         const filteredData = this.applyFilterSortPagination(data, filterString, currentPage );
         this.filteredCount = filteredData.length;
         this.totalPages = Math.ceil(filteredData.length / this.pageSize);
-        return filteredData;
+        const start = this.currentPage() * this.pageSize;
+
+        return filteredData.slice(start, start + this.pageSize);
       }),
       takeUntilDestroyed(this.destroyRef) 
     );
