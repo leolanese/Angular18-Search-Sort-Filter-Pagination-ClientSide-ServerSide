@@ -1,3 +1,4 @@
+import {ServerSideBasedPaginationService} from '@/services/server.side.based.pagination.service';
 import {
   AfterViewInit,
   Component,
@@ -16,8 +17,9 @@ import {
   startWith,
   switchMap,
 } from 'rxjs/operators';
-import {ServerSideBasedPaginationService} from '../../services/server.side.based.pagination.service';
 
+import {ApiResponse,ResponseItem} from '@/models/api.module';
+import {HttpErrorService} from '@/shared/http-error.service';
 import {CommonModule} from '@angular/common';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {MatButtonModule} from '@angular/material/button';
@@ -35,8 +37,6 @@ import {MatSnackBar,MatSnackBarModule} from '@angular/material/snack-bar';
 import {MatSort,MatSortModule} from '@angular/material/sort';
 import {MatTableModule} from '@angular/material/table';
 import {MatTooltipModule} from '@angular/material/tooltip';
-import {ApiResponse,ResponseItem} from '../../models/api.module';
-import {HttpErrorService} from '../../shared/http-error.service';
 
 @Component({
   selector: 'app-server-side-based',

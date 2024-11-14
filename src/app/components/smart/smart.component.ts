@@ -1,13 +1,13 @@
 import {CommonModule} from '@angular/common';
 
+import {APIService} from '@/services/api.service';
+import {ToastService} from '@/shared/toastModal.component';
 import {Component,DestroyRef,inject,OnInit} from '@angular/core';
-import {ToastService} from '../../shared/toastModal.component';
-import {APIService} from './../../services/api.service';
 
+import {DummyComponent} from '@/components/dummy/dummy.component';
 import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {NgxSkeletonLoaderModule} from 'ngx-skeleton-loader';
 import {catchError,debounceTime,distinctUntilChanged,Observable,of,Subject,switchMap} from 'rxjs';
-import {DummyComponent} from './../dummy/dummy.component';
 
 @Component({
     selector: 'app-smart',

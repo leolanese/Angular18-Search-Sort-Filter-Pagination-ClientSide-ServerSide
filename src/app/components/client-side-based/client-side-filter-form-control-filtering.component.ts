@@ -6,9 +6,9 @@ import {FormBuilder,FormControl,FormGroup,ReactiveFormsModule} from '@angular/fo
 import {combineLatest,Observable,of} from 'rxjs';
 import {catchError,debounceTime,distinctUntilChanged,map,shareReplay,startWith,tap} from 'rxjs/operators';
 
-import {SearchService} from '../../services/client.side.based.pagination.service';
-import {HttpErrorService} from '../../shared/http-error.service';
-import {ToastService} from '../../shared/toastModal.component';
+import {SearchService} from '@/services/client.side.based.pagination.service';
+import {HttpErrorService} from '@/shared/http-error.service';
+import {ToastService} from '@/shared/toastModal.component';
 import {FilterInputComponent} from "./Filter-input.component";
 import {ListComponent} from "./List.component";
 import {PaginationComponent} from "./Pagination.component";
@@ -75,6 +75,10 @@ export class ClientSideFilterFormControlComponent implements OnInit {
   ngOnInit() {
     // Fetch data and cache it
     this.data$ = this.searchService.getData().pipe(
+      tap(([data, filterString]) => {
+        console.log("Data received:", data);
+        console.log("Filter string received:", filterString);
+      }),
       startWith([]), // Emit an empty array before the actual data arrives
       shareReplay(1), // Cache the data to avoid re-fetching it on every subscription
       catchError((err) => {
@@ -125,22 +129,16 @@ export class ClientSideFilterFormControlComponent implements OnInit {
     );
   }
 
-  nextPage() {
-    this.currentPage++;
-    this.updateFilteredData();
-  }
-
-  previousPage() {
-    if (this.currentPage > 0) {
-      this.currentPage--;
-      this.updateFilteredData();
+  private applyFilterSortPagination(data: any[], filterString: string) {
+    // Return empty array if no search term is present
+    if (!filterString.trim()) {
+      this.filteredCount = 0;
+      return []; 
     }
-  }
 
-  private applyFilterSortPagination(countries: any[], filterString: string) {
     // Filtering
-    let filtered = countries.filter(country =>
-      country.name.toLowerCase().includes(filterString.toLowerCase())
+    let filtered = data.filter(val =>
+      val.name.toLowerCase().includes(filterString.toLowerCase())
     );
 
     // Update the count of filtered data

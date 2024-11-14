@@ -1,9 +1,9 @@
+import {ClientSideFilterFormControlComponent} from "@/components/client-side-based/client-side-filter-form-control-filtering.component";
+import {ClientSideSignalComponent} from "@/components/client-side-based/client-side-signal-filtering.component";
+import {ChangeDetectionVisualizerComponent} from '@/shared/change-detection-visualizer';
+import {ToastModalComponent} from '@/shared/toastModal.component';
 import {Component} from '@angular/core';
 import {RouterOutlet} from '@angular/router';
-import {ClientSideFilterFormControlComponent} from "./components/client-side-based/client-side-filter-form-control-filtering.component";
-import {ClientSideSignalComponent} from "./components/client-side-based/client-side-signal-filtering.component";
-import {ChangeDetectionVisualizerComponent} from './shared/change-detection-visualizer';
-import {ToastModalComponent} from './shared/toastModal.component';
 
 @Component({
   selector: 'app-root',

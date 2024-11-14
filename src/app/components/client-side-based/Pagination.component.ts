@@ -28,4 +28,5 @@ export class PaginationComponent {
       this.pageChange.emit(this.currentPage - 1);
     }
   }
+  
 }
