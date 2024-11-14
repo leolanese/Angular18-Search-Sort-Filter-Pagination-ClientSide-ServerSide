@@ -1,4 +1,4 @@
-import {Component,Input} from '@angular/core';
+import {ChangeDetectionStrategy,Component,Input} from '@angular/core';
 import {FormControl,ReactiveFormsModule} from '@angular/forms';
 
 @Component({
@@ -14,7 +14,8 @@ import {FormControl,ReactiveFormsModule} from '@angular/forms';
       type="text"
       placeholder="Filter Name (Patricia, Kurtis, etc)..."
     />
-  `
+  `,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class FilterInputComponent {
   @Input() filterControl!: FormControl; // Input to receive the FormControl from the parent component

@@ -1,4 +1,4 @@
-import {Component,Input,signal} from '@angular/core';
+import {ChangeDetectionStrategy,Component,Input,signal} from '@angular/core';
 
 @Component({
   selector: 'app-filter-input-signal',
@@ -10,6 +10,7 @@ import {Component,Input,signal} from '@angular/core';
       placeholder="Type to search..."
     />
   `,
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class FilterInputSignalComponent {
   // Define a Signal Input to update the parent signal

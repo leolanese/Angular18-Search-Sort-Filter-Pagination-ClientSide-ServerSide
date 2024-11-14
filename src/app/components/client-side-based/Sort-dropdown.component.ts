@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import {Component,EventEmitter,Output} from '@angular/core';
+import {ChangeDetectionStrategy,Component,EventEmitter,Output} from '@angular/core';
 
 @Component({
   selector: 'app-sort-dropdown',
@@ -11,6 +11,7 @@ import {Component,EventEmitter,Output} from '@angular/core';
     </select>
   `,
   imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class SortDropdownComponent {
   @Output() sortChanged = new EventEmitter<'asc' | 'desc'>(); // Emit sort order changes

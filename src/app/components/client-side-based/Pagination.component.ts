@@ -1,5 +1,5 @@
 import {CommonModule} from '@angular/common';
-import {Component,EventEmitter,Input,Output} from '@angular/core';
+import {ChangeDetectionStrategy,Component,EventEmitter,Input,Output} from '@angular/core';
 
 @Component({
   selector: 'app-pagination',
@@ -11,7 +11,8 @@ import {Component,EventEmitter,Input,Output} from '@angular/core';
       <p>Page {{ currentPage + 1 }} of {{ totalPages }}</p>
     </div>
   `,
-  imports: [CommonModule]
+  imports: [CommonModule],
+  changeDetection: ChangeDetectionStrategy.Default,
 })
 export class PaginationComponent {
   @Input() currentPage: number = 0;
