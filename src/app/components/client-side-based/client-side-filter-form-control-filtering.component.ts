@@ -47,7 +47,7 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
   changeDetection: ChangeDetectionStrategy.Default,
 })
 export class ClientSideFilterFormControlComponent implements OnInit {
-  title = 'Filter Form Control based: Search, Sort, and Pagination Components using Array/List Data Structure';
+  title = 'Form Control based: Search, Sort, and Pagination Components using Array/List Data Structure';
   data$: Observable<any[]> = of([]);
   filteredResult$!: Observable<any[]>;
   form: FormGroup;
