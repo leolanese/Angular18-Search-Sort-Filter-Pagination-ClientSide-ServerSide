@@ -74,11 +74,27 @@ export class SmartComponent implements OnInit {
     //   ))
     // );
 
-    this.users$ = this.#apiService.getTerm('users').pipe(
+    // this.users$ = this.#apiService.getTerm('users').pipe(
+    //   debounceTime(300), // Wait for user to stop typing for 300ms
+    //   distinctUntilChanged(), // Only trigger if the value has changed
+    //   //  if you expect subsequent triggers
+    //   switchMap(() => this.#apiService.getTerm('users').pipe(
+    //     takeUntilDestroyed(this.#destroyRef),
+    //     catchError(error => {
+    //       this.#toastService.show('Error loading Data!');
+    //       return of([]); // Return empty array in case of error
+    //     })
+    //   ))
+    // );
+
+    // Reusable HTTP Service with RxJS operators
+    // Replace redundant HTTP methods in your app with this service to improve readability and consistency
+    const term = 'users'; // Define the term variable
+    this.users$ = this.#apiService.get<string[]>(`${this.#apiService.apiRootUrl}${term}`).pipe(
       debounceTime(300), // Wait for user to stop typing for 300ms
       distinctUntilChanged(), // Only trigger if the value has changed
       //  if you expect subsequent triggers
-      switchMap(() => this.#apiService.getTerm('users').pipe(
+      switchMap(() => this.#apiService.get<string[]>(`${this.#apiService.apiRootUrl}${term}`).pipe(
         takeUntilDestroyed(this.#destroyRef),
         catchError(error => {
           this.#toastService.show('Error loading Data!');

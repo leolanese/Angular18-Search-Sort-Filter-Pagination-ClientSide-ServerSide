@@ -1,21 +1,18 @@
 import {HttpClient} from '@angular/common/http';
 import {Injectable,inject} from '@angular/core';
-import {Observable,debounceTime,map,shareReplay} from 'rxjs';
+import {Observable,catchError,debounceTime,map,shareReplay,throwError} from 'rxjs';
 
 @Injectable({
   providedIn: 'root'
 })
 export class APIService {
   // constructor-based dependency injection
-  // we declare its dependencies in the constructor, and Angular's DI system 
-  // handles injecting those dependencies when the component or service is instantiated.
   http = inject(HttpClient);
-  private apiRooturl = "https://jsonplaceholder.typicode.com/";
+   apiRootUrl = "https://jsonplaceholder.typicode.com/";
 
-  //  arrow functions capture the this value of their enclosing context at the time they're defined, 
-  // they retain the correct this reference no matter how they're called.
+  // Specific method to fetch terms with debouncing, mapping, and caching
   getTerm = (term: string): Observable<any[]> => {
-    let apiUrl = `${this.apiRooturl}${term}`;
+    const apiUrl = `${this.apiRootUrl}${term}`;
 
     return this.http.get<any[]>(apiUrl)
       .pipe(
@@ -29,4 +26,16 @@ export class APIService {
           shareReplay(1), // Cache the latest response and replay it to new subscribers
         );
   }
+
+  // Generic method to make GET requests with optional caching
+  get<T>(url: string): Observable<T> {
+    return this.http.get<T>(url).pipe(
+      shareReplay(1), // Cache the response to avoid multiple requests
+      catchError((error) => {
+        console.error('Error fetching data:', error);
+        return throwError(() => new Error('Failed to fetch data.'));
+      })
+    );
+  }
+
 }

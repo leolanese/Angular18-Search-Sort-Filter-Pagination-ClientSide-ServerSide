@@ -1,10 +1,8 @@
-import { HttpInterceptorFn, HttpRequest } from '@angular/common/http';
-import { tap } from 'rxjs';
+import {HttpInterceptorFn,HttpRequest} from '@angular/common/http';
+import {tap} from 'rxjs';
 
 // Function Interceptor, rather than a class-based interceptor
 export const httpRequestInterceptor: HttpInterceptorFn = (req: HttpRequest<unknown>, next) => {
-  console.log('Interceptor request triggered: ', req.method, req.url);
-
   if (req.url.startsWith('https://jsonplaceholder.typicode.com/users')) {
       // Setting a dummy token for demonstration
       const headers = req.headers.set('Authorization', 'Bearer Auth-11223344');
