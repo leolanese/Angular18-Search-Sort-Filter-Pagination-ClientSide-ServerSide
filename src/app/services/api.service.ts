@@ -28,8 +28,10 @@ export class APIService {
   }
 
   // Generic method to make GET requests with optional caching
+  // map will not be inside as it is generic
   get<T>(url: string): Observable<T> {
     return this.http.get<T>(url).pipe(
+      debounceTime(300),
       shareReplay(1), // Cache the response to avoid multiple requests
       catchError((error) => {
         console.error('Error fetching data:', error);
