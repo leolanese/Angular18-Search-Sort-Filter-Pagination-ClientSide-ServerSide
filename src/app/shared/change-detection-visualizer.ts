@@ -24,14 +24,14 @@ import {injectCdBlink} from './inject-cd-blink';
   ]
 })
 export class ChangeDetectionVisualizerComponent implements OnInit, AfterViewInit {
-  blink = injectCdBlink(); // Use the utility to create a blink function
+  blink = injectCdBlink(); // blink function
 
   constructor(private elementRef: ElementRef, private ngZone: NgZone) {}
 
   ngOnInit() {
     // Optional: Initial check to ensure the blink function is defined
     if (this.blink()) {
-      console.log('Blink function initialized successfully');
+      console.log('Blink function initialised successfully');
     } else {
       console.error('Blink function could not be initialized');
     }

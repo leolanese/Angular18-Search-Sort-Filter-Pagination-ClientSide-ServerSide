@@ -4,7 +4,10 @@
     "source.organizeImports": "always",
     "source.fixAll.eslint": "always"
   },
-  "eslint.validate": ["javascript", "typescript"],
+  "eslint.validate": [
+    "javascript",
+    "typescript"
+  ],
   "typescript.suggestionActions.enabled": true,
   "typescript.inlayHints.parameterNames.enable": false,
   "typescript.inlayHints.propertyDeclarationTypes.enabled": false,
@@ -63,7 +66,14 @@
   "workbench.list.horizontalScrolling": false,
   "editor.wordWrapColumn": 120,
   "files.exclude": {
-    "**/*.specs": true
+    "**/*.specs": true,
+    "**/.git": true,
+    "**/.svn": true,
+    "**/.hg": true,
+    "**/CVS": true,
+    "**/.DS_Store": true,
+    "**/Thumbs.db": true,
+    "**/node_modules": true,
   },
   // The number of spaces a tab is equal to.
   "editor.tabSize": 2,
@@ -117,7 +127,9 @@
   "workbench.sideBar.location": "left",
   "breadcrumbs.enabled": true,
   "search.useIgnoreFiles": true,
-  "colorize.colorized_colors": ["HEXA"],
+  "colorize.colorized_colors": [
+    "HEXA"
+  ],
   "window.titleBarStyle": "custom",
   "yaml.schemas": {
     "file:///Users/antoniyz/.vscode/extensions/atlassian.atlascode-2.9.1/resources/schemas/pipelines-schema.json": "bitbucket-pipelines.yml"

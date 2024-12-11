@@ -28,13 +28,13 @@ import {SmartComponent} from "./components/smart/smart.component";
      <app-smart /> 
 
     <!-- Server-side-based filter, sort, pagination -->
-    <app-server-side-based />
+    <!-- <app-server-side-based /> -->
 
     <!-- Client-side-based filter, sort, pagination using filter form control for filtering -->
-    <app-client-side-filter-form-control-filtering />
+    <!-- <app-client-side-filter-form-control-filtering /> -->
 
     <!-- Client-side-based filter, sort, pagination using Signal for filtering -->
-    <app-client-side-signal-filtering />
+    <!-- <app-client-side-signal-filtering /> -->
 
      <!-- <app-change-detection-visualizer />  -->
   `,
