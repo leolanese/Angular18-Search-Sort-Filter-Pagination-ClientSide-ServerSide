@@ -36,7 +36,7 @@ import {SortDropdownComponent} from "./Sort-dropdown.component";
         <app-pagination
           [currentPage]="currentPage"
           [totalPages]="totalPages"
-          (pageChange)="onPageChange($event)">
+          (pageChange)="onPagePaginationChange($event)">
         </app-pagination>
 
       </form>
@@ -169,7 +169,7 @@ export class ClientSideFilterFormControlComponent implements OnInit {
     );
   }
 
-  onPageChange(newPage: number) {
+  onPagePaginationChange(newPage: number) {
     console.log(newPage)
     this.currentPage = newPage;
     this.updateFilteredData();
