@@ -28,6 +28,10 @@ import {SmartComponent} from "./components/smart/smart.component";
     <h1>{{title}}</h1>
     <app-toast-modal />
 
+    <!-- Form Update Directive from FormUpdateDirective-->
+    <!-- <app-form-update-directive />
+    <app-form-update-directive-async /> -->
+
     <!-- Smart/Dymmy + Service API request + cache Interceptor = requestsInterceptor -->
     <!-- <app-smart />  -->
 
@@ -40,11 +44,7 @@ import {SmartComponent} from "./components/smart/smart.component";
     <!-- Client-side-based filter, sort, pagination using Signal for filtering -->
     <!-- <app-client-side-signal-filtering /> -->
 
-    <!-- Form Update Directive from FormUpdateDirective-->
-    <app-form-update-directive />
-    <app-form-update-directive-async />
-
-     <!-- <app-change-detection-visualizer />  -->
+    <!-- <app-change-detection-visualizer />  -->
   `,
   styleUrl: './app.component.scss'
 })
