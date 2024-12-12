@@ -2,7 +2,7 @@ import {AsyncPipe,NgIf} from '@angular/common';
 import {AfterViewInit,Component,ViewChild} from '@angular/core';
 import {FormsModule} from '@angular/forms';
 import {Observable} from 'rxjs';
-import {FormUpdateDirective} from './../../shared/form-update.directive';
+import {FormUpdateDirective} from '../../shared/form-update.stream.directive';
 
 @Component({
   selector: 'app-form-update-directive-async',
@@ -12,7 +12,7 @@ import {FormUpdateDirective} from './../../shared/form-update.directive';
     <form #myForm="ngForm" appUpdate>
       <input type="text" name="username" ngModel>
       <input type="password" name="password" ngModel>
-      <button type="submit">Submit 2</button>
+      <button type="submit">Submit (stream)</button>
     </form>
  
     <!-- Subscribe to appUpdate using the async pipe -->

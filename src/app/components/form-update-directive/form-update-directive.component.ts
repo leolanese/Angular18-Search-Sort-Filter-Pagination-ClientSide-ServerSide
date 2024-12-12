@@ -1,6 +1,6 @@
 import {Component} from '@angular/core';
 import {FormsModule} from '@angular/forms';
-import {FormUpdateDirective} from './../../shared/form-update.directive';
+import {FormUpdateDirective} from '../../shared/form-update.stream.directive';
 
 @Component({
   selector: 'app-form-update-directive',
@@ -10,7 +10,7 @@ import {FormUpdateDirective} from './../../shared/form-update.directive';
     <form #myForm="ngForm" appUpdate (appUpdate)="onFormUpdate($event)">
       <input type="text" name="username" ngModel>
       <input type="password" name="password" ngModel>
-      <button type="submit">Submit 1</button>
+      <button type="submit">Submit (programmatically)</button>
     </form>
     Welcome, {{ welcomeMessage }} <-- using the directive programmatically
   `,
@@ -25,7 +25,6 @@ export class FormUpdateComponent {
       // Show a welcome message
       this.welcomeMessage = `Welcome, ${value.username}!`;
     } else {
-      // Hide the welcome message
       this.welcomeMessage = '';
     }
   }
