@@ -9,6 +9,8 @@ import {takeUntilDestroyed} from '@angular/core/rxjs-interop';
 import {NgxSkeletonLoaderModule} from 'ngx-skeleton-loader';
 import {catchError,debounceTime,distinctUntilChanged,Observable,of,Subject,switchMap} from 'rxjs';
 
+type ApiTerm = 'users' | 'products' | 'orders';
+
 @Component({
     selector: 'app-smart',
     standalone: true,
@@ -107,17 +109,13 @@ export class SmartComponent implements OnInit {
 
     // smart component fully reusable 
     // Generic Type (<T>): The fetchData method accepts a generic type, making it reusable for any data type
-    fetchData<T>(term: string): void {
+    fetchData<T>(term: ApiTerm): void {
       const url = `${this.#apiService.apiRootUrl}${term}`;
 
       this.data$ = this.#apiService.get<T[]>(url).pipe(
         distinctUntilChanged(), // Only trigger if the value has changed
         switchMap(() => this.#apiService.get<T[]>(url).pipe(
-        takeUntilDestroyed(this.#destroyRef), // Efficient cleanup for subscriptions
-        catchError(error => {
-            console.error(`Error fetching data for term: ${term}`, error);
-            return of([] as T[]); // Return an empty array in case of error
-          })
+          takeUntilDestroyed(this.#destroyRef), // Efficient cleanup for subscriptions
         ))
       );
     }
