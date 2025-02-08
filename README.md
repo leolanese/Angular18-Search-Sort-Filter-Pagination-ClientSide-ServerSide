@@ -4,7 +4,7 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 
 ```js
 ng new company-test --routing false --style scss --skip-git --skip-tests
-cd company-test
+cd company
 ```
 
 ```js
