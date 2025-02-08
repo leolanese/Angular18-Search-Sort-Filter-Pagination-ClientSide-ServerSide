@@ -5,8 +5,13 @@ This project was generated with [Angular CLI](https://github.com/angular/angular
 ```js
 ng new company-test --routing false --style scss --skip-git --skip-tests
 cd company-test
+```
 
+```js
 ng v
+```
+
+```js
 Angular CLI: 18.0.3
 Node: 20.10.0
 Package Manager: npm 10.2.3
@@ -18,8 +23,12 @@ Package                      Version
 @angular-devkit/core         18.0.3 (cli-only)
 @angular-devkit/schematics   18.0.3 (cli-only)
 @schematics/angular          18.0.3 (cli-only)
-
+```
+```js
 npm list -g --depth 0
+```
+
+```js
 C:\Program Files\nodejs -> .\
 +-- @angular/cli@18.0.3
 +-- @aws-amplify/cli@
@@ -29,10 +38,14 @@ C:\Program Files\nodejs -> .\
 +-- json-server@1.0.0-beta.1
 +-- next@14.2.5
 +-- npm@10.2.3
+```
 
+```js
 // run SB
 npx storybook@latest init
+```
 
+```js
 // Code scaffolding
 ng g c components/dummy
 ng g c components/smart
