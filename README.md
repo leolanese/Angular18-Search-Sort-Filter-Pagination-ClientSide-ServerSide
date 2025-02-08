@@ -3,7 +3,7 @@
 This project was generated with [Angular CLI](https://github.com/angular/angular-cli) version 18.0.3.
 
 ```js
-ng new company-test --routing false --style scss --skip-git --skip-tests
+ng new company --routing false --style scss --skip-git --skip-tests
 cd company
 ```
 
